@@ -44,11 +44,6 @@
     <!-- Lucide Vector Icons (Universal CDN) -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Firebase App & Auth Compat SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
     <!-- Confetti Celebrations -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -63,71 +58,74 @@
         <i data-lucide="building-2" class="w-9 h-9 text-white"></i>
       </div>
       <h1 class="text-3xl font-extrabold tracking-tight font-heading mb-1">HouseBook</h1>
-      <p class="text-slate-400 text-sm mb-6">Find Verified Homes, Rentals & Penthouses</p>
+      <p class="text-slate-400 text-xs mb-6">Find Verified Homes & Penthouses • Developed by Sumit Atariya</p>
       <div class="w-48 h-1.5 bg-slate-800 rounded-full overflow-hidden">
         <div class="h-full bg-indigo-500 rounded-full animate-pulse w-full"></div>
       </div>
     </div>
 
     <!-- Header / Navbar -->
+    <!-- Header / Top Bar -->
     <header id="main-header" class="sticky top-0 z-40 glass-nav border-b border-slate-200/80">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
-        <!-- Logo -->
-        <a href="#" onclick="switchTab('explore')" class="flex items-center gap-2.5 flex-shrink-0 group">
-          <div class="w-10 h-10 bg-indigo-600 group-hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20 transition-all">
-            <i data-lucide="building-2" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-xl font-extrabold tracking-tight font-heading text-slate-900">House<span class="text-indigo-600">Book</span></span>
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col gap-2.5">
+        <!-- Top Navbar Row -->
+        <div class="flex items-center justify-between gap-2 sm:gap-4">
+          <!-- Logo -->
+          <a href="#" onclick="switchTab('explore')" class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0 group">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 bg-indigo-600 group-hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20 transition-all">
+              <i data-lucide="building-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-emerald-600 tracking-wider uppercase block -mt-1">Verified Living</span>
-          </div>
-        </a>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-lg sm:text-xl font-extrabold tracking-tight font-heading text-slate-900">House<span class="text-indigo-600">Book</span></span>
+              </div>
+              <span class="text-[9px] sm:text-[10px] font-semibold text-emerald-600 tracking-wider uppercase block -mt-1">Verified Living</span>
+            </div>
+          </a>
 
-        <!-- Search Bar (Desktop) -->
-        <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
-          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-          <input 
-            type="text" 
-            id="nav-search-input"
-            placeholder="Search by city, locality, penthouse or villa..." 
-            class="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all placeholder:text-slate-400"
-          />
-        </div>
-
-        <!-- Right Action Controls -->
-        <div class="flex items-center gap-2 sm:gap-2.5">
-          <!-- Currency Selector -->
-          <div class="relative hidden sm:block">
-            <select 
-              id="currency-select"
-              class="appearance-none bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 pl-3 pr-7 rounded-xl border border-slate-200 focus:outline-none cursor-pointer transition-colors"
-            >
-              <option value="INR">₹ INR</option>
-              <option value="USD">$ USD</option>
-              <option value="EUR">€ EUR</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <!-- Search Bar (Desktop / Tablet) -->
+          <div class="hidden md:flex flex-1 max-w-md mx-3 relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="nav-search-input"
+              placeholder="Search by city, locality, penthouse or villa..." 
+              class="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+            />
           </div>
+
+          <!-- Right Action Controls -->
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-end">
+            <!-- Currency Selector (Visible on Mobile & Desktop) -->
+            <div class="relative">
+              <select 
+                id="currency-select"
+                class="appearance-none bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 pl-2 sm:pl-3 pr-6 sm:pr-7 rounded-xl border border-slate-200 focus:outline-none cursor-pointer transition-colors"
+              >
+                <option value="INR">₹ INR</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+              </select>
+              <i data-lucide="chevron-down" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
 
           <!-- Coins Balance Button -->
           <button 
             type="button" 
             onclick="openModal('coins-modal')" 
-            class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl text-xs font-bold transition-all"
+            class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl text-xs font-bold transition-all cursor-pointer"
             title="HouseBook Rewards Center"
           >
-            <span class="text-sm">🪙</span>
+            <span class="text-xs sm:text-sm">🪙</span>
             <span id="user-coins-display">150</span>
-            <span class="hidden lg:inline text-[10px] text-amber-600">Coins</span>
+            <span class="hidden sm:inline text-[10px] text-amber-600">Coins</span>
           </button>
 
           <!-- VIP Button -->
           <button 
             type="button"
             onclick="openModal('vip-modal')"
-            class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl text-xs font-bold shadow-sm hover:brightness-105 transition-all"
+            class="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl text-xs font-bold shadow-sm hover:brightness-105 transition-all cursor-pointer"
           >
             <i data-lucide="crown" class="w-3.5 h-3.5"></i>
             <span>VIP</span>
@@ -137,9 +135,9 @@
           <button 
             type="button"
             onclick="openModal('add-property-modal')"
-            class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-md shadow-indigo-600/20 transition-all"
+            class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-md shadow-indigo-600/20 transition-all active:scale-95 cursor-pointer"
           >
-            <i data-lucide="plus" class="w-4 h-4"></i>
+            <i data-lucide="plus" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
             <span class="hidden sm:inline">Post Free Property</span>
             <span class="sm:hidden">Post</span>
           </button>
@@ -148,161 +146,82 @@
           <button 
             type="button"
             onclick="openModal('notif-modal')"
-            class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 relative transition-colors"
+            class="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 hover:text-indigo-600 relative transition-all active:scale-95 cursor-pointer"
             title="Notifications"
+            aria-label="Notifications"
           >
-            <i data-lucide="bell" class="w-5 h-5"></i>
-            <span class="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2"></span>
+            <i data-lucide="bell" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            <span class="w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white absolute top-1 right-1 sm:top-1.5 sm:right-1.5"></span>
           </button>
 
+          <!-- Real-Time Network & Cloud Status Indicator -->
+          <div id="network-status-indicator" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-200/80 rounded-xl text-emerald-800 text-[11px] font-bold shadow-xs cursor-default">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="hidden sm:inline">Live Cloud</span>
+          </div>
+
           <!-- User Auth / Profile Container -->
-          <div id="auth-header-container" class="flex items-center gap-2">
+          <div id="auth-header-container" class="flex items-center gap-1.5 sm:gap-2">
             <!-- Signed Out or Guest State: Login / Register Button -->
             <button 
               type="button"
               id="nav-login-btn"
               onclick="openModal('auth-modal')"
-              class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-indigo-600/20 transition-all cursor-pointer"
+              class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-extrabold shadow-md shadow-indigo-600/20 transition-all cursor-pointer active:scale-95"
             >
               <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
-              <span>Sign In / Register</span>
+              <span class="hidden xs:inline">Sign In</span>
+              <span class="xs:hidden">Login</span>
             </button>
 
-            <!-- Signed In Real State: User Profile -->
+            <!-- User Profile Button (Drawer trigger) -->
             <button 
               type="button"
               id="nav-profile-btn"
               onclick="openModal('profile-modal')"
-              class="hidden flex items-center gap-2 pl-1.5 pr-2.5 py-1 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
+              class="flex items-center gap-1.5 sm:gap-2 pl-1 pr-1.5 sm:pr-2.5 py-1 rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-all cursor-pointer active:scale-95"
+              title="Open Profile Drawer"
+              aria-label="Profile"
             >
-              <img 
-                id="header-user-avatar"
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" 
-                class="w-8 h-8 rounded-full object-cover border border-slate-300"
-                alt="User profile"
-              />
-              <span id="profile-name-display" class="hidden sm:inline text-xs font-bold text-slate-800">User</span>
+              <div class="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border-2 border-indigo-500 shadow-xs flex-shrink-0 bg-indigo-50 flex items-center justify-center">
+                <img 
+                  id="header-user-avatar"
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" 
+                  class="w-full h-full object-cover"
+                  alt="User profile"
+                  onerror="this.style.display='none'; document.getElementById('header-user-fallback-icon')?.classList.remove('hidden');"
+                />
+                <i id="header-user-fallback-icon" data-lucide="user" class="hidden w-4 h-4 text-indigo-600"></i>
+              </div>
+              <span id="profile-name-display" class="text-xs font-bold text-slate-800 truncate max-w-[65px] sm:max-w-[90px]">User</span>
             </button>
           </div>
         </div>
       </div>
-    </header>
+
+      <!-- Mobile Search Bar (md:hidden) -->
+      <div class="md:hidden relative w-full mt-0.5">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+        <input 
+          type="text" 
+          id="nav-search-input-mobile"
+          placeholder="Search by city, locality, penthouse or villa..." 
+          class="w-full pl-10 pr-4 py-2 bg-slate-100 hover:bg-slate-100/90 focus:bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all placeholder:text-slate-400 shadow-xs"
+        />
+      </div>
+    </div>
+  </header>
 
     <!-- Main Content Body -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
 
-      <!-- Hero Search Section -->
-      <section id="hero-section" class="relative rounded-3xl overflow-hidden bg-slate-900 text-white p-4 sm:p-6 shadow-xl max-w-3xl mx-auto">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="relative z-10 w-full">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold mb-3">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-            <span>Verified Real Estate Marketplace • 0% Brokerage</span>
-          </div>
-
-          <h2 class="text-2xl sm:text-3xl font-black font-heading tracking-tight mb-2 leading-tight">
-            Find Your Next Home or Villa
-          </h2>
-
-          <!-- Search & Filter Card -->
-          <div class="bg-white rounded-2xl p-3 sm:p-4 text-slate-800 shadow-xl border border-slate-200/90 mt-3">
-            <!-- Search Text Input -->
-            <div class="relative mb-2.5">
-              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-              <input 
-                type="text" 
-                id="hero-search-input" 
-                placeholder="Search by locality, city, project or keyword (e.g. Bandra, Villa, Penthouse)..." 
-                class="w-full pl-9 pr-8 py-2 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs font-medium text-slate-800 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
-              />
-            </div>
-
-            <!-- Filter Pills (Buy / Rent / Commercial / Luxury) -->
-            <div class="flex flex-wrap gap-1.5 mb-3 border-b border-slate-100 pb-3">
-              <button type="button" data-type="all" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition-colors">
-                All Properties
-              </button>
-              <button type="button" data-type="sale" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-                Buy
-              </button>
-              <button type="button" data-type="rent" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-                Rent
-              </button>
-              <button type="button" data-type="commercial" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-                Commercial
-              </button>
-              <button type="button" data-type="luxury" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-                Luxury
-              </button>
-            </div>
-
-            <!-- Dropdown Filters Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <!-- City Select -->
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">City</label>
-                <select id="filter-city" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                  <option value="all">All Cities</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="bangalore">Bangalore</option>
-                  <option value="pune">Pune</option>
-                  <option value="delhi ncr">Delhi NCR</option>
-                  <option value="gurgaon">Gurgaon</option>
-                  <option value="hyderabad">Hyderabad</option>
-                </select>
-              </div>
-
-              <!-- Bedrooms / BHK -->
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">BHK</label>
-                <select id="filter-bhk" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                  <option value="all">Any BHK</option>
-                  <option value="1">1 BHK</option>
-                  <option value="2">2 BHK</option>
-                  <option value="3">3 BHK</option>
-                  <option value="4">4+ BHK</option>
-                </select>
-              </div>
-
-              <!-- Property Type -->
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Type</label>
-                <select id="filter-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                  <option value="all">All Types</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="villa">Villa</option>
-                  <option value="penthouse">Penthouse</option>
-                  <option value="studio">Studio</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="duplex">Duplex</option>
-                </select>
-              </div>
-
-              <!-- Budget Range -->
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Budget</label>
-                <select id="filter-budget" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-                  <option value="all">Any Budget</option>
-                  <option value="budget-low">Under ₹50L</option>
-                  <option value="budget-mid">₹50L - ₹2Cr</option>
-                  <option value="budget-high">₹2Cr+</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Primary Navigation Tabs -->
-      <nav id="section-tabs" class="flex flex-wrap gap-2 p-1.5 bg-slate-200/70 rounded-2xl max-w-fit mx-auto">
+      <!-- Primary Navigation Tabs (Unified Desktop & Mobile) -->
+      <nav id="section-tabs" class="sticky top-[72px] z-30 flex flex-nowrap sm:flex-wrap items-center gap-1.5 sm:gap-2 p-1.5 bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl max-w-full sm:max-w-fit mx-auto overflow-x-auto no-scrollbar shadow-md">
         <button 
           type="button"
           data-tab="explore" 
           onclick="switchTab('explore')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-indigo-600 text-white shadow-md transition-all"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-indigo-600 text-white shadow-md transition-all flex-shrink-0 whitespace-nowrap"
         >
           <i data-lucide="compass" class="w-4 h-4"></i>
           <span>Explore Properties</span>
@@ -310,12 +229,34 @@
 
         <button 
           type="button"
+          data-tab="recommendations" 
+          onclick="switchTab('recommendations')"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
+        >
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+          <span>AI Recommendations</span>
+          <span class="bg-gradient-to-r from-amber-500 to-indigo-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">AI Match</span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="filters" 
+          onclick="switchTab('filters')"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
+        >
+          <i data-lucide="sliders-horizontal" class="w-4 h-4 text-indigo-500"></i>
+          <span>Search & Filters</span>
+          <span id="active-filter-badge" class="hidden bg-indigo-100 text-indigo-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">Active</span>
+        </button>
+
+        <button 
+          type="button"
           data-tab="requests" 
           onclick="switchTab('requests')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
         >
           <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-          <span>Property Requests</span>
+          <span>Buyer Requirements</span>
           <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">New</span>
         </button>
 
@@ -323,7 +264,7 @@
           type="button"
           data-tab="analytics" 
           onclick="switchTab('analytics')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
         >
           <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
           <span>Owner Analytics</span>
@@ -333,7 +274,7 @@
           type="button"
           data-tab="shortlist" 
           onclick="switchTab('shortlist')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
         >
           <i data-lucide="heart" class="w-4 h-4"></i>
           <span>Shortlisted</span>
@@ -344,7 +285,7 @@
           type="button"
           data-tab="chats" 
           onclick="switchTab('chats')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
         >
           <i data-lucide="message-square" class="w-4 h-4"></i>
           <span>In-App Chats</span>
@@ -353,36 +294,301 @@
 
         <button 
           type="button"
-          data-tab="legal" 
-          onclick="switchTab('legal')"
-          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+          data-tab="profile" 
+          onclick="openModal('profile-modal')"
+          class="tab-btn px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all flex-shrink-0 whitespace-nowrap"
         >
-          <i data-lucide="scale" class="w-4 h-4"></i>
-          <span>Legal & KYC</span>
+          <i data-lucide="user" class="w-4 h-4 text-amber-400"></i>
+          <span>My Profile</span>
         </button>
       </nav>
 
-      <!-- VIEW 1: EXPLORE PROPERTIES -->
-      <section id="view-explore" class="space-y-6">
-        <!-- Section Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">
-              Featured Housing Listings
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-500">
-              Verified owner listings • Direct contact with zero intermediary fee
-            </p>
-          </div>
+      <!-- DEDICATED VIEW FOR AI PROPERTY RECOMMENDATIONS -->
+      <section id="view-recommendations" class="hidden space-y-6 max-w-5xl mx-auto">
+        <!-- AI Hero Banner -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 md:p-10 border border-slate-800 shadow-2xl">
+          <div class="absolute inset-0 bg-[radial-gradient(#6366f1_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+          <div class="absolute top-0 right-0 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
+          <div class="relative z-10 max-w-3xl space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/30 border border-indigo-400/30 text-indigo-200 text-xs font-black rounded-full backdrop-blur-sm">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-300 animate-pulse"></i>
+              <span>HouseBook AI Matchmaker Engine</span>
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl font-black font-heading tracking-tight text-white leading-tight">
+              Smart AI Property Recommendations
+            </h2>
+            <p class="text-xs sm:text-sm text-indigo-100 font-medium leading-relaxed max-w-2xl">
+              Get personalized property recommendations based on your budget, configuration, high rental yield potential, and verified direct-owner listings. Powered by offline-resilient AI scoring.
+            </p>
+
+            <!-- Natural Language Search Prompt -->
+            <div class="pt-2 flex flex-col sm:flex-row items-stretch gap-3">
+              <div class="relative flex-1">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+                <input 
+                  type="text" 
+                  id="ai-prompt-input" 
+                  placeholder="e.g., 3BHK flat in Bandra under ₹4 Cr or high rental yield apartment..." 
+                  class="w-full pl-11 pr-4 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white text-white focus:text-slate-900 placeholder:text-slate-400 text-xs font-bold rounded-2xl border border-white/20 focus:border-indigo-400 focus:outline-none transition-all shadow-inner backdrop-blur-md"
+                  onkeydown="if(event.key==='Enter') executeAiRecommendationSearch()"
+                />
+              </div>
+              <button 
+                type="button" 
+                onclick="executeAiRecommendationSearch()" 
+                class="px-6 py-3.5 bg-gradient-to-r from-amber-500 via-indigo-600 to-indigo-500 hover:opacity-95 text-white font-black text-xs rounded-2xl shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all active:scale-95 whitespace-nowrap cursor-pointer"
+              >
+                <i data-lucide="wand-2" class="w-4 h-4 text-amber-200"></i>
+                <span>Get AI Recommendations</span>
+              </button>
+            </div>
+
+            <!-- Preset Filters -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2 text-xs">
+              <span class="text-[11px] text-indigo-200 font-bold whitespace-nowrap">Instant Filters:</span>
+              <button id="ai-pill-all" onclick="setAiCategoryFilter('all')" class="ai-filter-pill px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-black whitespace-nowrap transition-all text-[11px] shadow-sm cursor-pointer">
+                🌟 All Top AI Picks
+              </button>
+              <button id="ai-pill-family" onclick="setAiCategoryFilter('family')" class="ai-filter-pill px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 font-bold whitespace-nowrap transition-all text-[11px] cursor-pointer">
+                👨‍👩‍👧 Family 3BHK+
+              </button>
+              <button id="ai-pill-rental" onclick="setAiCategoryFilter('rental')" class="ai-filter-pill px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 font-bold whitespace-nowrap transition-all text-[11px] cursor-pointer">
+                📈 High Rental Yield
+              </button>
+              <button id="ai-pill-budget" onclick="setAiCategoryFilter('budget')" class="ai-filter-pill px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 font-bold whitespace-nowrap transition-all text-[11px] cursor-pointer">
+                💰 Under ₹2 Cr
+              </button>
+              <button id="ai-pill-luxury" onclick="setAiCategoryFilter('luxury')" class="ai-filter-pill px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 font-bold whitespace-nowrap transition-all text-[11px] cursor-pointer">
+                🏖️ Luxury & Villas
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Match Summary Status Bar -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+              <i data-lucide="cpu" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span id="ai-results-count" class="font-black text-slate-900">Curating top matched properties...</span>
+              <p class="text-[11px] text-slate-500 font-medium">Evaluated across pricing, location tier, verification score & amenities</p>
+            </div>
+          </div>
           <div class="flex items-center gap-2">
+            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-[11px] font-extrabold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> AI Match Engine Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Recommendations Grid -->
+        <div id="ai-recommendations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically populated by renderAiRecommendations() in app.js -->
+        </div>
+      </section>
+      <!-- DEDICATED VIEW FOR PROPERTY FILTERS & SEARCH -->
+      <section id="view-filters" class="hidden max-w-4xl mx-auto space-y-6">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-2xl font-black font-heading text-slate-900">Search & Filter Properties</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Find your perfect home, flat, villa, or shop by city, budget, and configuration</p>
+            </div>
             <button 
               type="button" 
               onclick="resetAllFilters()" 
-              class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-colors"
+              class="px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-colors"
             >
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-              Reset
+              Reset Filters
+            </button>
+          </div>
+
+          <!-- Keyword Search Bar -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-black uppercase text-slate-400 tracking-wider">Search Keyword / Locality / Title</label>
+            <div class="relative w-full">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input 
+                type="text" 
+                id="dedicated-search-input" 
+                placeholder="Search by city, project, locality (e.g. Bandra, Indiranagar, Villa, Penthouse)..." 
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs font-bold text-slate-800 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
+              />
+            </div>
+          </div>
+
+          <!-- Filter Pills (Buy / Rent / Commercial / Luxury) -->
+          <div>
+            <label class="block text-xs font-black uppercase text-slate-400 mb-2 tracking-wider">Listing Purpose</label>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" data-type="all" class="filter-pill-type px-4 py-2 rounded-xl text-xs font-black bg-indigo-600 text-white shadow-sm transition-all">
+                All Properties
+              </button>
+              <button type="button" data-type="sale" class="filter-pill-type px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                Buy (For Sale)
+              </button>
+              <button type="button" data-type="rent" class="filter-pill-type px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                Rent (For Rent)
+              </button>
+              <button type="button" data-type="commercial" class="filter-pill-type px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                Commercial Spaces
+              </button>
+              <button type="button" data-type="luxury" class="filter-pill-type px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                Luxury Homes
+              </button>
+            </div>
+          </div>
+
+          <!-- Dropdown Filters Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            <!-- City Select -->
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 mb-1.5">City Location</label>
+              <select id="filter-city" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <option value="all">All Cities</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="pune">Pune</option>
+                <option value="delhi ncr">Delhi NCR</option>
+                <option value="gurgaon">Gurgaon</option>
+                <option value="hyderabad">Hyderabad</option>
+              </select>
+            </div>
+
+            <!-- Bedrooms / BHK -->
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 mb-1.5">Bedrooms / BHK</label>
+              <select id="filter-bhk" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <option value="all">Any BHK Configuration</option>
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3">3 BHK</option>
+                <option value="4">4+ BHK</option>
+              </select>
+            </div>
+
+            <!-- Property Type -->
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 mb-1.5">Property Type</label>
+              <select id="filter-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <option value="all">All Property Types</option>
+                <option value="apartment">Apartment / Flat</option>
+                <option value="villa">Independent Villa</option>
+                <option value="penthouse">Penthouse</option>
+                <option value="studio">Studio Apartment</option>
+                <option value="commercial">Commercial Office / Shop</option>
+                <option value="duplex">Duplex Residence</option>
+              </select>
+            </div>
+
+            <!-- Budget Range -->
+            <div>
+              <label class="block text-xs font-extrabold text-slate-700 mb-1.5">Budget Bracket</label>
+              <select id="filter-budget" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <option value="all">Any Budget</option>
+                <option value="budget-low">Under ₹50 Lakhs</option>
+                <option value="budget-mid">₹50 Lakhs - ₹2 Crore</option>
+                <option value="budget-high">Above ₹2 Crore</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Apply Button -->
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+            <button 
+              type="button" 
+              onclick="resetAllFilters()" 
+              class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition-colors"
+            >
+              Clear All
+            </button>
+            <button 
+              type="button" 
+              onclick="switchTab('explore')" 
+              class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl text-xs shadow-lg transition-all active:scale-95 flex items-center gap-2"
+            >
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Apply Filters & View Properties</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 1: EXPLORE PROPERTIES ONLY -->
+      <section id="view-explore" class="space-y-6">
+        <!-- Section Header & Quick Search Bar -->
+        <div class="bg-white rounded-3xl p-5 md:p-6 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 class="text-2xl font-black font-heading text-slate-900 tracking-tight flex items-center gap-2">
+                <i data-lucide="building-2" class="w-6 h-6 text-indigo-600"></i>
+                <span>Explore Properties</span>
+              </h3>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">
+                Direct owner & verified agent listings • Zero brokerage fees
+              </p>
+            </div>
+
+            <!-- Total Properties Count Badge -->
+            <div class="flex items-center gap-2">
+              <span id="explore-properties-count-badge" class="px-3 py-1 bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-xs rounded-xl shadow-xs">
+                Showing Properties
+              </span>
+              <button 
+                type="button" 
+                onclick="switchTab('filters')" 
+                class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95"
+              >
+                <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+                <span>Advanced Filters</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Search Input Bar -->
+          <div class="relative w-full">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="explore-quick-search-input" 
+              oninput="handleSearchSync(this.value)"
+              placeholder="Search by city, area, or property type (e.g., Bandra, Villa, Rent, Mumbai, 3BHK)..." 
+              class="w-full pl-11 pr-24 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs font-bold text-slate-900 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all placeholder:text-slate-400 shadow-xs"
+            />
+            <button 
+              type="button" 
+              onclick="resetAllFilters()" 
+              class="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl transition-all"
+            >
+              Clear
+            </button>
+          </div>
+
+          <!-- Quick Category Filter Pills Bar -->
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
+            <button onclick="setFilterCategory('all')" class="explore-cat-pill active px-4 py-2 bg-indigo-600 text-white text-xs font-black rounded-xl shadow-sm whitespace-nowrap transition-all">
+              All Properties
+            </button>
+            <button onclick="switchTab('recommendations')" class="explore-cat-pill px-4 py-2 bg-gradient-to-r from-amber-500 to-indigo-600 hover:from-amber-600 hover:to-indigo-700 text-white text-xs font-black rounded-xl shadow-md whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-200 animate-pulse"></i>
+              <span>✨ AI Recommendations</span>
+            </button>
+            <button onclick="setFilterCategory('sale')" class="explore-cat-pill px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl whitespace-nowrap transition-all">
+              Buy (For Sale)
+            </button>
+            <button onclick="setFilterCategory('rent')" class="explore-cat-pill px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl whitespace-nowrap transition-all">
+              Rent
+            </button>
+            <button onclick="setFilterCategory('villa')" class="explore-cat-pill px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl whitespace-nowrap transition-all">
+              Villas
+            </button>
+            <button onclick="setFilterCategory('commercial')" class="explore-cat-pill px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl whitespace-nowrap transition-all">
+              Commercial
             </button>
           </div>
         </div>
@@ -405,46 +611,117 @@
         </div>
       </section>
 
-      <!-- VIEW 3: IN-APP CHATS & ENQUIRIES -->
-      <section id="view-chats" class="hidden">
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-3 min-h-[560px]">
+      <!-- VIEW 3: IN-APP CHATS & ENQUIRIES (INSTAGRAM DM STYLE - FULL SCREEN) -->
+      <section id="view-chats" class="hidden min-h-[calc(100vh-7rem)] flex flex-col">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden flex flex-col md:flex-row flex-1 min-h-[550px] h-full">
           <!-- Conversations List (Left) -->
-          <div class="border-r border-slate-200 p-4 flex flex-col bg-slate-50/50">
-            <div class="mb-4">
-              <h4 class="font-extrabold text-slate-900 text-base font-heading">Messages & Enquiries</h4>
-              <p class="text-xs text-slate-500">Active conversations with sellers & agents</p>
+          <div id="chat-list-container" class="w-full md:w-80 lg:w-96 border-r border-slate-200 p-4 flex flex-col bg-slate-50/70 flex-shrink-0">
+            <div class="mb-4 flex items-center justify-between pb-3 border-b border-slate-200">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 p-0.5">
+                  <div class="w-full h-full bg-white rounded-full flex items-center justify-center text-purple-600">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-black text-slate-900 text-sm font-heading flex items-center gap-1">
+                    HouseBook Messages
+                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-blue-500"></i>
+                  </h4>
+                  <p class="text-[10px] text-slate-500">Property Conversations & Leads</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-extrabold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">Live Chat</span>
             </div>
-            <div id="chat-conversations-list" class="space-y-1 overflow-y-auto flex-1">
+
+            <!-- Search Chats -->
+            <div class="relative mb-3">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input 
+                type="text" 
+                id="search-chats-input" 
+                oninput="filterChatsList(this.value)"
+                placeholder="Search messages..." 
+                class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+              />
+            </div>
+
+            <div id="chat-conversations-list" class="space-y-1.5 overflow-y-auto flex-1">
               <!-- Chat list rendered dynamically -->
             </div>
           </div>
 
           <!-- Active Chat Window (Right) -->
-          <div class="md:col-span-2 flex flex-col h-full bg-white">
-            <!-- Chat Header -->
-            <div id="chat-active-header" class="p-4 border-b border-slate-200 flex items-center justify-between">
+          <div id="chat-window-container" class="flex-1 flex flex-col h-full bg-white hidden md:flex">
+            <!-- Chat Header (Instagram Style) -->
+            <div id="chat-active-header" class="p-3.5 border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-10 flex items-center justify-between">
               <!-- Chat header rendered dynamically -->
             </div>
 
             <!-- Messages Stream -->
-            <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto min-h-[360px] bg-slate-50/30">
+            <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto min-h-[380px] bg-slate-50/40 space-y-3">
               <!-- Messages rendered dynamically -->
+            </div>
+
+            <!-- Typing Indicator Container -->
+            <div id="chat-typing-indicator" class="hidden px-4 py-1.5 bg-slate-50 text-[11px] text-slate-400 italic flex items-center gap-2 border-t border-slate-100">
+              <div class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce"></span>
+                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+              </div>
+              <span id="typing-indicator-text">Seller is typing a reply...</span>
             </div>
 
             <!-- Input Bar -->
             <div class="p-3 border-t border-slate-200 bg-white">
               <form onsubmit="event.preventDefault(); sendChatMessage();" class="flex items-center gap-2">
+                <!-- Attach Image File Button -->
+                <button 
+                  type="button" 
+                  onclick="document.getElementById('chat-image-picker').click()"
+                  class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
+                  title="Send Photo Attachment"
+                >
+                  <i data-lucide="image" class="w-5 h-5"></i>
+                </button>
+                <input type="file" id="chat-image-picker" accept="image/*" class="hidden" onchange="handleChatImagePick(event)" />
+
+                <!-- Voice Note Button -->
+                <button 
+                  type="button" 
+                  onclick="sendVoiceNoteMessage()"
+                  class="p-2 text-slate-500 hover:text-purple-600 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
+                  title="Send Voice Note Audio"
+                >
+                  <i data-lucide="mic" class="w-5 h-5"></i>
+                </button>
+
+                <!-- Text Input -->
                 <input 
                   type="text" 
                   id="chat-input-field" 
-                  placeholder="Type your inquiry or request site visit..." 
-                  class="flex-1 px-4 py-2.5 bg-slate-100 rounded-xl text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  placeholder="Message or request site visit... (Double-tap msg to ❤️)" 
+                  class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-100/80 focus:bg-white rounded-full text-xs font-medium border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all"
                 />
+
+                <!-- Quick Heart Send Button -->
+                <button 
+                  type="button" 
+                  onclick="sendQuickHeart()"
+                  class="p-2 text-rose-500 hover:scale-125 transition-transform flex-shrink-0"
+                  title="Send Heart ❤️"
+                >
+                  <i data-lucide="heart" class="w-5 h-5 fill-rose-500"></i>
+                </button>
+
+                <!-- Send Submit Button -->
                 <button 
                   type="submit" 
-                  class="p-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition-colors flex-shrink-0"
+                  class="px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:brightness-110 text-white font-extrabold rounded-full text-xs shadow-md transition-all flex items-center gap-1 flex-shrink-0"
                 >
-                  <i data-lucide="send" class="w-4 h-4"></i>
+                  <span>Send</span>
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
                 </button>
               </form>
             </div>
@@ -666,9 +943,9 @@
       </section>
     </main>
 
-    <!-- MODAL 1: PROPERTY DETAIL MODAL -->
-    <div id="property-detail-modal" class="modal-overlay">
-      <div class="modal-content max-w-4xl" id="property-detail-body">
+    <!-- MODAL 1: FULLSCREEN PROPERTY DETAIL MODAL -->
+    <div id="property-detail-modal" class="modal-overlay modal-fullscreen">
+      <div class="modal-content max-w-full w-full h-full min-h-screen p-0 flex flex-col bg-slate-950 text-slate-100 overflow-y-auto" id="property-detail-body">
         <!-- Rendered dynamically by app.js -->
       </div>
     </div>
@@ -770,7 +1047,21 @@
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Cover Photo URL (or leave default)</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Pick Property Photos (Multiple File Upload) *</label>
+            <div 
+              class="border-2 border-dashed border-indigo-200 hover:border-indigo-500 rounded-2xl p-4 text-center bg-indigo-50/50 hover:bg-indigo-50 transition-all cursor-pointer relative"
+              onclick="document.getElementById('post-property-files').click()"
+            >
+              <i data-lucide="image-plus" class="w-8 h-8 text-indigo-600 mx-auto mb-1"></i>
+              <p class="text-xs font-extrabold text-slate-800">Click or Drag Image Files Here</p>
+              <p class="text-[11px] text-slate-500">Select multiple property photos from device (PNG, JPG, WEBP)</p>
+              <input type="file" id="post-property-files" accept="image/*" multiple class="hidden" onchange="handlePropertyImageFilesSelect(event)" />
+            </div>
+            <div id="post-property-file-previews" class="flex flex-wrap gap-2 mt-2"></div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Or Cover Photo URL (Fallback)</label>
             <input type="url" name="imageUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono" />
           </div>
 
@@ -881,115 +1172,185 @@
       </div>
     </div>
 
-    <!-- MODAL 5: FULL-SCREEN USER PROFILE & SETTINGS SYSTEM -->
-    <div id="profile-modal" class="modal-overlay">
-      <div class="modal-content max-w-4xl w-full h-[90vh] p-0 flex flex-col overflow-hidden bg-white shadow-2xl rounded-3xl">
-        
-        <!-- Sleek Hero Cover Banner -->
-        <div class="relative bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 pb-4 border-b border-slate-800">
-          <!-- Background Accent Grid Overlay -->
-          <div class="absolute inset-0 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none"></div>
+    <!-- MODAL 4.5: BUYER PURCHASE OFFER REQUEST MODAL -->
+    <div id="send-buy-request-modal" class="modal-overlay">
+      <div class="modal-content max-w-lg p-6 bg-slate-900 text-slate-100 border border-slate-800 rounded-3xl shadow-2xl">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-indigo-600 text-white flex items-center justify-center font-black shadow-lg">
+              <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-black font-heading text-white">Send Buy Request to Owner</h3>
+              <p class="text-xs text-slate-400">Directly express interest to purchase this property</p>
+            </div>
+          </div>
+          <button onclick="closeModal('send-buy-request-modal')" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
 
-          <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <form id="buy-request-form" onsubmit="submitBuyRequest(event)" class="space-y-4">
+          <input type="hidden" id="buy-request-property-id" />
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Target Property</label>
+            <div id="buy-request-property-title" class="p-3 bg-slate-800/90 rounded-2xl border border-slate-700 font-extrabold text-xs text-indigo-300">
+              Loading property details...
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Your Offered Price (₹ INR) *</label>
+              <input type="number" id="buy-request-price" required placeholder="e.g. 15000000" class="w-full px-3.5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Your Contact Phone *</label>
+              <input type="tel" id="buy-request-phone" required placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Message for Owner / Seller</label>
+            <textarea id="buy-request-message" rows="3" placeholder="e.g. I am interested in purchasing this property immediately. Please share site visit dates..." class="w-full px-3.5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"></textarea>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-3">
+            <button type="button" onclick="closeModal('send-buy-request-modal')" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-colors">
+              Cancel
+            </button>
+            <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl shadow-lg shadow-emerald-600/30 transition-all active:scale-95 flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Offer & Start Chat</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 5: SLIDE-IN USER PROFILE & SETTINGS DRAWER -->
+    <div id="profile-modal" class="modal-overlay modal-drawer">
+      <div class="modal-content p-0 flex flex-col overflow-y-auto bg-slate-100 text-slate-900 border-none shadow-2xl">
+        
+        <!-- Sleek Full-Screen Hero Cover Banner -->
+        <div class="relative bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-6 md:p-8 border-b border-slate-800">
+          <!-- Background Accent Grid & Radial Overlay -->
+          <div class="absolute inset-0 bg-[radial-gradient(#6366f1_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+          <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Top Back Navigation Header Bar -->
+          <div class="relative z-10 flex items-center justify-between pb-4 mb-6 border-b border-white/10">
+            <button onclick="closeModal('profile-modal')" class="px-4 py-2 rounded-2xl bg-white/10 hover:bg-indigo-600 text-white transition-all flex items-center gap-2 text-xs font-black active:scale-95 shadow-md">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              <span>Back to App</span>
+            </button>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-black text-indigo-300 tracking-wider uppercase">User Account Dashboard</span>
+            </div>
+            <div class="w-10"></div>
+          </div>
+
+          <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <!-- User Avatar & Identity Details -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-5">
               <!-- Avatar with Edit Badge -->
-              <div class="relative group cursor-pointer" onclick="openModal('avatar-modal')" title="Change Avatar">
-                <img id="profile-modal-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" class="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-500 shadow-xl" />
-                <div class="absolute -bottom-1 -right-1 bg-indigo-600 text-white p-1 rounded-lg text-xs shadow-md group-hover:scale-110 transition-transform">
-                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+              <div class="relative group cursor-pointer" onclick="openModal('avatar-modal')" title="Change Profile Avatar">
+                <div class="w-20 h-20 rounded-3xl p-1 bg-gradient-to-tr from-amber-400 via-rose-500 to-indigo-500 shadow-2xl">
+                  <img id="profile-modal-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" class="w-full h-full rounded-[22px] object-cover bg-slate-800" />
+                </div>
+                <div class="absolute -bottom-1 -right-1 bg-indigo-600 hover:bg-indigo-500 text-white p-1.5 rounded-xl text-xs shadow-lg group-hover:scale-110 transition-transform">
+                  <i data-lucide="camera" class="w-4 h-4"></i>
                 </div>
               </div>
 
               <div>
-                <div class="flex items-center gap-2">
-                  <h3 id="profile-modal-title" class="font-extrabold text-xl font-heading">Guest User</h3>
-                  <span id="profile-verification-badge" class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold rounded-md flex items-center gap-1">
-                    <i data-lucide="check-circle" class="w-3 h-3 text-emerald-400"></i> Verified
+                <div class="flex items-center gap-2.5 flex-wrap">
+                  <h3 id="profile-modal-title" class="font-extrabold text-2xl font-heading tracking-tight text-white">Guest User</h3>
+                  <span id="profile-verification-badge" class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-extrabold rounded-lg flex items-center gap-1 shadow-sm">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i> Verified
                   </span>
                 </div>
-                <p id="profile-modal-subtitle" class="text-xs text-indigo-300 mt-0.5">Not Logged In • Guest Account</p>
+                <p id="profile-modal-subtitle" class="text-xs text-indigo-200 mt-1 font-medium">Not Logged In • Guest Account</p>
                 
                 <!-- Quick User Tags -->
-                <div class="flex items-center gap-2 mt-2">
-                  <span id="profile-role-tag" class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-200 border border-indigo-400/20 text-[10px] font-bold rounded-full">Buyer Profile</span>
-                  <span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold rounded-full flex items-center gap-1">
-                    <i data-lucide="award" class="w-3 h-3 text-amber-400"></i> HouseBook Member
+                <div class="flex items-center gap-2 mt-3 flex-wrap">
+                  <span id="profile-role-tag" class="px-3 py-1 bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs font-extrabold rounded-full backdrop-blur-sm">Buyer Profile</span>
+                  <span class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-extrabold rounded-full flex items-center gap-1 backdrop-blur-sm">
+                    <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i> HouseBook Member
                   </span>
                 </div>
               </div>
             </div>
 
             <!-- Top Header Action Buttons -->
-            <div class="flex items-center gap-2 self-end sm:self-center">
+            <div class="flex items-center gap-3 self-end md:self-center">
               <button 
                 type="button"
                 onclick="closeModal('profile-modal'); openModal('auth-modal');" 
-                class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
+                class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl text-xs font-black transition-all shadow-lg hover:shadow-indigo-500/25 active:scale-95 flex items-center gap-2"
               >
-                <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
-                <span>Switch / Login</span>
-              </button>
-              <button onclick="closeModal('profile-modal')" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                <span>Switch / Sign In</span>
               </button>
             </div>
           </div>
 
           <!-- Quick Stats Bar Strip -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-4 border-t border-slate-800">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mt-8 pt-6 border-t border-white/10">
             <!-- Coins Stat -->
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 text-center flex flex-col items-center justify-center">
-              <div class="flex items-center gap-1 text-amber-400 font-extrabold text-sm">
-                <i data-lucide="coins" class="w-4 h-4"></i>
+            <div class="bg-white/10 border border-white/15 hover:border-amber-400/60 rounded-2xl p-3.5 text-center flex flex-col items-center justify-center transition-all group backdrop-blur-md">
+              <div class="flex items-center gap-1.5 text-amber-300 font-black text-xl group-hover:scale-105 transition-transform">
+                <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
                 <span id="profile-stat-coins">100</span>
               </div>
-              <span class="text-[10px] text-slate-400 font-medium mt-0.5">Coins Balance</span>
+              <span class="text-xs text-indigo-100 font-extrabold mt-1">Coins Balance</span>
             </div>
 
             <!-- Shortlists Stat -->
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 text-center flex flex-col items-center justify-center">
-              <div class="flex items-center gap-1 text-rose-400 font-extrabold text-sm">
-                <i data-lucide="heart" class="w-4 h-4"></i>
+            <div class="bg-white/10 border border-white/15 hover:border-rose-400/60 rounded-2xl p-3.5 text-center flex flex-col items-center justify-center transition-all group backdrop-blur-md">
+              <div class="flex items-center gap-1.5 text-rose-300 font-black text-xl group-hover:scale-105 transition-transform">
+                <i data-lucide="heart" class="w-5 h-5 text-rose-400"></i>
                 <span id="profile-stat-shortlist">0</span>
               </div>
-              <span class="text-[10px] text-slate-400 font-medium mt-0.5">Saved Homes</span>
+              <span class="text-xs text-indigo-100 font-extrabold mt-1">Saved Homes</span>
             </div>
 
             <!-- Unlocked Stat -->
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 text-center flex flex-col items-center justify-center">
-              <div class="flex items-center gap-1 text-indigo-400 font-extrabold text-sm">
-                <i data-lucide="unlock" class="w-4 h-4"></i>
+            <div class="bg-white/10 border border-white/15 hover:border-indigo-400/60 rounded-2xl p-3.5 text-center flex flex-col items-center justify-center transition-all group backdrop-blur-md">
+              <div class="flex items-center gap-1.5 text-indigo-300 font-black text-xl group-hover:scale-105 transition-transform">
+                <i data-lucide="unlock" class="w-5 h-5 text-indigo-400"></i>
                 <span id="profile-stat-unlocked">0</span>
               </div>
-              <span class="text-[10px] text-slate-400 font-medium mt-0.5">Unlocked Contacts</span>
+              <span class="text-xs text-indigo-100 font-extrabold mt-1">Unlocked Contacts</span>
             </div>
 
             <!-- My Listings Stat -->
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 text-center flex flex-col items-center justify-center">
-              <div class="flex items-center gap-1 text-emerald-400 font-extrabold text-sm">
-                <i data-lucide="home" class="w-4 h-4"></i>
+            <div class="bg-white/10 border border-white/15 hover:border-emerald-400/60 rounded-2xl p-3.5 text-center flex flex-col items-center justify-center transition-all group backdrop-blur-md">
+              <div class="flex items-center gap-1.5 text-emerald-300 font-black text-xl group-hover:scale-105 transition-transform">
+                <i data-lucide="home" class="w-5 h-5 text-emerald-400"></i>
                 <span id="profile-stat-listings">0</span>
               </div>
-              <span class="text-[10px] text-slate-400 font-medium mt-0.5">My Listings</span>
+              <span class="text-xs text-indigo-100 font-extrabold mt-1">My Listings</span>
             </div>
           </div>
         </div>
 
-        <!-- Profile Sub-Tab Navigation Bar -->
-        <div class="bg-white border-b border-slate-200 px-6 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <!-- High-Contrast Profile Sub-Tab Navigation Bar -->
+        <div class="bg-white border-y border-slate-200 px-4 sm:px-8 py-3.5 sticky top-0 z-30 shadow-md flex items-center gap-3 overflow-x-auto no-scrollbar">
           <button 
             id="tab-btn-account"
             onclick="switchProfileTab('account')" 
-            class="px-4 py-3 text-xs font-extrabold border-b-2 border-indigo-600 text-indigo-600 whitespace-nowrap flex items-center gap-2 transition-all"
+            class="px-5 py-3 text-xs sm:text-sm font-black rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20 border border-indigo-700 whitespace-nowrap flex items-center gap-2.5 transition-all active:scale-95"
           >
-            <i data-lucide="user" class="w-4 h-4"></i>
+            <i data-lucide="user" class="w-4 h-4 text-white"></i>
             <span>Personal Info</span>
           </button>
           <button 
             id="tab-btn-rewards"
             onclick="switchProfileTab('rewards')" 
-            class="px-4 py-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap flex items-center gap-2 transition-all"
+            class="px-5 py-3 text-xs sm:text-sm font-bold rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 whitespace-nowrap flex items-center gap-2.5 transition-all active:scale-95 shadow-sm"
           >
             <i data-lucide="gift" class="w-4 h-4 text-amber-500"></i>
             <span>Coins & Rewards</span>
@@ -997,70 +1358,70 @@
           <button 
             id="tab-btn-listings"
             onclick="switchProfileTab('listings')" 
-            class="px-4 py-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap flex items-center gap-2 transition-all"
+            class="px-5 py-3 text-xs sm:text-sm font-bold rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 whitespace-nowrap flex items-center gap-2.5 transition-all active:scale-95 shadow-sm"
           >
-            <i data-lucide="building" class="w-4 h-4 text-emerald-500"></i>
+            <i data-lucide="building" class="w-4 h-4 text-emerald-600"></i>
             <span>My Listings & Saved</span>
           </button>
           <button 
             id="tab-btn-settings"
             onclick="switchProfileTab('settings')" 
-            class="px-4 py-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap flex items-center gap-2 transition-all"
+            class="px-5 py-3 text-xs sm:text-sm font-bold rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 whitespace-nowrap flex items-center gap-2.5 transition-all active:scale-95 shadow-sm"
           >
-            <i data-lucide="settings" class="w-4 h-4 text-slate-500"></i>
+            <i data-lucide="settings" class="w-4 h-4 text-cyan-600"></i>
             <span>App Preferences</span>
           </button>
         </div>
 
-        <!-- Body with Sub-Tab Panels -->
-        <div class="flex-1 overflow-y-auto p-6 bg-slate-50">
+        <!-- Full-Screen Body with Sub-Tab Panels -->
+        <div class="flex-1 p-6 md:p-8 bg-slate-50 max-w-6xl w-full mx-auto space-y-6 text-slate-900">
           
           <!-- TAB 1: Personal Info Panel -->
           <div id="profile-panel-account" class="space-y-6">
             <!-- Guest Notice Banner -->
-            <div id="profile-guest-notice" class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-800 flex items-center justify-between gap-4 shadow-sm">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-700 flex-shrink-0">
-                  <i data-lucide="shield-alert" class="w-5 h-5"></i>
+            <div id="profile-guest-notice" class="p-5 bg-amber-50 border border-amber-300/90 rounded-3xl text-xs text-amber-900 flex items-center justify-between gap-4 shadow-sm">
+              <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 bg-amber-500/20 border border-amber-400/40 rounded-2xl flex items-center justify-center text-amber-700 flex-shrink-0">
+                  <i data-lucide="shield-alert" class="w-6 h-6"></i>
                 </div>
                 <div>
-                  <h5 class="font-bold text-amber-900 text-xs">Guest Account Active</h5>
-                  <p class="text-[11px] text-amber-700 mt-0.5">Sign in to sync your profile, coins, shortlisted properties, and chat history across devices.</p>
+                  <h5 class="font-extrabold text-amber-950 text-sm">Guest Account Active</h5>
+                  <p class="text-xs text-amber-800 mt-0.5">Sign in to sync your profile, coins, shortlisted properties, and chat history across devices.</p>
                 </div>
               </div>
               <button 
                 onclick="closeModal('profile-modal'); openModal('auth-modal');" 
-                class="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-colors whitespace-nowrap flex-shrink-0"
+                class="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-2xl shadow-md transition-all whitespace-nowrap flex-shrink-0"
               >
                 Sign In Now
               </button>
             </div>
 
             <!-- Personal Details Form -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
-              <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2 pb-3 border-b border-slate-100">
-                <i data-lucide="user-check" class="w-4 h-4 text-indigo-600"></i> Editable Personal Information
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+              <h4 class="font-extrabold text-slate-900 text-base font-heading flex items-center gap-2.5 pb-4 border-b border-slate-100">
+                <i data-lucide="user-check" class="w-5 h-5 text-indigo-600"></i> Personal Information
               </h4>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
-                  <input type="text" id="profile-input-name" placeholder="Enter your full name" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                  <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Full Name</label>
+                  <input type="text" id="profile-input-name" placeholder="Enter your full name" class="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-300 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all" />
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-                  <input type="email" id="profile-input-email" placeholder="Enter email address" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                  <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Email Address</label>
+                  <input type="email" id="profile-input-email" placeholder="Enter email address" class="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-300 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all" />
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
-                  <input type="text" id="profile-input-phone" placeholder="+91 98000 00000" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                  <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Phone Number</label>
+                  <input type="text" id="profile-input-phone" placeholder="+91 98000 00000" class="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-300 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all" />
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">Account Role / Purpose</label>
-                  <select id="profile-input-role" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Account Role / Purpose</label>
+                  <select id="profile-input-role" class="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-300 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all">
                     <option value="Buyer">Home Buyer / Investor</option>
                     <option value="Tenant">Tenant / Rent Seeker</option>
                     <option value="Owner">Property Owner / Seller</option>
@@ -1070,15 +1431,15 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Profile Bio / Headline</label>
-                <textarea id="profile-input-bio" rows="2" placeholder="e.g. Looking for a 3BHK flat in Bandra or South Mumbai for family relocation." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20"></textarea>
+                <label class="block text-xs font-black uppercase text-slate-500 mb-2 tracking-wider">Profile Bio / Headline</label>
+                <textarea id="profile-input-bio" rows="3" placeholder="e.g. Looking for a 3BHK flat in Bandra or South Mumbai for family relocation." class="w-full px-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-300 rounded-2xl text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all"></textarea>
               </div>
 
               <div class="pt-2 flex justify-end">
                 <button 
                   type="button" 
                   onclick="saveProfileChanges()" 
-                  class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center gap-2"
+                  class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-2xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-2 active:scale-95"
                 >
                   <i data-lucide="save" class="w-4 h-4"></i>
                   <span>Save Profile Changes</span>
@@ -1090,22 +1451,22 @@
           <!-- TAB 2: Rewards & Coins Panel -->
           <div id="profile-panel-rewards" class="hidden space-y-6">
             <!-- Coins Balance Showcase -->
-            <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-600 rounded-3xl p-6 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-600 rounded-3xl p-6 md:p-8 text-white shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
               <div class="space-y-2 text-center sm:text-left">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-black/20 text-amber-100 text-xs font-extrabold rounded-full backdrop-blur-sm">
-                  <i data-lucide="coins" class="w-3.5 h-3.5 text-amber-300"></i> HouseBook Coins Wallet
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-black/20 text-amber-100 text-xs font-extrabold rounded-full backdrop-blur-sm">
+                  <i data-lucide="coins" class="w-4 h-4 text-amber-300"></i> HouseBook Coins Wallet
                 </span>
-                <h3 class="text-3xl font-black font-heading flex items-center justify-center sm:justify-start gap-2">
+                <h3 class="text-4xl font-black font-heading flex items-center justify-center sm:justify-start gap-2">
                   <span id="rewards-panel-coins">100</span> Coins
                 </h3>
-                <p class="text-xs text-amber-100 max-w-md">Use coins to unlock direct owner contact numbers and feature your listed properties on top!</p>
+                <p class="text-xs text-amber-100 max-w-md font-medium">Use coins to unlock direct owner contact numbers and feature your listed properties on top!</p>
               </div>
 
               <!-- Daily Claim Button -->
               <button 
                 onclick="claimDailyReward()" 
                 id="btn-claim-daily"
-                class="px-6 py-3.5 bg-white text-amber-900 font-extrabold text-xs rounded-2xl shadow-xl hover:bg-amber-50 active:scale-95 transition-all flex items-center gap-2 flex-shrink-0"
+                class="px-6 py-4 bg-white text-amber-950 font-black text-xs rounded-2xl shadow-xl hover:bg-amber-50 active:scale-95 transition-all flex items-center gap-2.5 flex-shrink-0"
               >
                 <i data-lucide="gift" class="w-4 h-4 text-amber-600"></i>
                 <span>Claim Daily +20 Coins</span>
@@ -1113,38 +1474,38 @@
             </div>
 
             <!-- Earn Coins Tasks -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-              <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2 pb-2 border-b border-slate-100">
-                <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i> Quick Ways to Earn Coins
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-5">
+              <h4 class="font-extrabold text-slate-900 text-base font-heading flex items-center gap-2.5 pb-3 border-b border-slate-100">
+                <i data-lucide="zap" class="w-5 h-5 text-amber-500"></i> Quick Ways to Earn Free Coins
               </h4>
 
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between space-y-3">
+                <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col justify-between space-y-4">
                   <div>
-                    <span class="font-extrabold text-xs text-slate-800 block">Post Property Listing</span>
-                    <span class="text-[11px] text-slate-500">Get +50 Coins when you list a home</span>
+                    <span class="font-extrabold text-sm text-slate-900 block">Post Property Listing</span>
+                    <span class="text-xs text-slate-500 mt-1 block">Get +50 Coins when you list a home</span>
                   </div>
-                  <button onclick="closeModal('profile-modal'); openModal('post-modal');" class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-colors">
+                  <button onclick="closeModal('profile-modal'); openModal('post-modal');" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl transition-colors">
                     +50 Coins
                   </button>
                 </div>
 
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between space-y-3">
+                <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col justify-between space-y-4">
                   <div>
-                    <span class="font-extrabold text-xs text-slate-800 block">Verify Phone Number</span>
-                    <span class="text-[11px] text-slate-500">Get +30 Coins for phone verification</span>
+                    <span class="font-extrabold text-sm text-slate-900 block">Verify Phone Number</span>
+                    <span class="text-xs text-slate-500 mt-1 block">Get +30 Coins for phone verification</span>
                   </div>
-                  <button onclick="saveProfileChanges()" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-lg transition-colors">
+                  <button onclick="saveProfileChanges()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl transition-colors">
                     +30 Coins
                   </button>
                 </div>
 
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between space-y-3">
+                <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col justify-between space-y-4">
                   <div>
-                    <span class="font-extrabold text-xs text-slate-800 block">Daily Check-In</span>
-                    <span class="text-[11px] text-slate-500">Claim 20 free coins every 24h</span>
+                    <span class="font-extrabold text-sm text-slate-900 block">Daily Check-In</span>
+                    <span class="text-xs text-slate-500 mt-1 block">Claim 20 free coins every 24h</span>
                   </div>
-                  <button onclick="claimDailyReward()" class="w-full py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg transition-colors">
+                  <button onclick="claimDailyReward()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-black text-xs rounded-xl transition-colors">
                     Claim Bonus
                   </button>
                 </div>
@@ -1154,49 +1515,49 @@
 
           <!-- TAB 3: My Listings & Saved Panel -->
           <div id="profile-panel-listings" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2">
-                  <i data-lucide="building" class="w-4 h-4 text-emerald-600"></i> My Posted Property Listings
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-5">
+              <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                <h4 class="font-extrabold text-slate-900 text-base font-heading flex items-center gap-2.5">
+                  <i data-lucide="building" class="w-5 h-5 text-emerald-600"></i> My Posted Property Listings
                 </h4>
-                <button onclick="closeModal('profile-modal'); openModal('post-modal');" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5">
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i> Post New Property
+                <button onclick="closeModal('profile-modal'); openModal('post-modal');" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-md flex items-center gap-2">
+                  <i data-lucide="plus" class="w-4 h-4"></i> Post New Property
                 </button>
               </div>
 
               <!-- Listings Container -->
-              <div id="profile-user-listings-container" class="space-y-3">
-                <p class="text-xs text-slate-500 py-4 text-center">No properties posted yet. Click "Post New Property" to upload your first home listing!</p>
+              <div id="profile-user-listings-container" class="space-y-4">
+                <p class="text-xs text-slate-500 py-6 text-center font-medium">No properties posted yet. Click "Post New Property" to upload your first home listing!</p>
               </div>
             </div>
           </div>
 
           <!-- TAB 4: App Preferences & Settings Panel -->
           <div id="profile-panel-settings" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
-              <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2 pb-3 border-b border-slate-100">
-                <i data-lucide="settings" class="w-4 h-4 text-indigo-600"></i> Application Preferences & Controls
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+              <h4 class="font-extrabold text-slate-900 text-base font-heading flex items-center gap-2.5 pb-4 border-b border-slate-100">
+                <i data-lucide="settings" class="w-5 h-5 text-indigo-600"></i> Application Preferences & Controls
               </h4>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <!-- Theme Mode -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span class="font-bold text-slate-800 text-xs block">Dark Mode Theme</span>
-                    <span class="text-[11px] text-slate-500">Switch between light & dark UI</span>
+                    <span class="font-extrabold text-slate-900 text-xs block">Dark Mode Theme</span>
+                    <span class="text-[11px] text-slate-500 font-medium">Switch between light & dark UI</span>
                   </div>
-                  <button onclick="toggleDarkMode()" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-indigo-600 transition-colors">
+                  <button onclick="toggleDarkMode()" class="px-3.5 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors">
                     Toggle Mode
                   </button>
                 </div>
 
                 <!-- Currency -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span class="font-bold text-slate-800 text-xs block">Default Currency</span>
-                    <span class="text-[11px] text-slate-500">INR, USD or EUR</span>
+                    <span class="font-extrabold text-slate-900 text-xs block">Default Currency</span>
+                    <span class="text-[11px] text-slate-500 font-medium">INR, USD or EUR</span>
                   </div>
-                  <select onchange="setCurrency(this.value)" class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold">
+                  <select onchange="setCurrency(this.value)" class="px-3.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-900">
                     <option value="INR">₹ INR</option>
                     <option value="USD">$ USD</option>
                     <option value="EUR">€ EUR</option>
@@ -1204,37 +1565,57 @@
                 </div>
 
                 <!-- Notifications Toggle -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span class="font-bold text-slate-800 text-xs block">Push & WhatsApp Alerts</span>
-                    <span class="text-[11px] text-slate-500">Price drops & visit reminders</span>
+                    <span class="font-extrabold text-slate-900 text-xs block">Push & WhatsApp Alerts</span>
+                    <span class="text-[11px] text-slate-500 font-medium">Price drops & visit reminders</span>
                   </div>
-                  <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">Enabled</span>
+                  <span class="px-3 py-1 bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-extrabold rounded-full">Enabled</span>
                 </div>
 
                 <!-- Reset Data -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
+                <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-between">
                   <div>
-                    <span class="font-bold text-slate-800 text-xs block">Clear Local Cache</span>
-                    <span class="text-[11px] text-slate-500">Reset local stored properties</span>
+                    <span class="font-extrabold text-slate-900 text-xs block">Clear Local Cache</span>
+                    <span class="text-[11px] text-slate-500 font-medium">Reset local stored properties</span>
                   </div>
-                  <button onclick="localStorage.clear(); location.reload();" class="px-3 py-1.5 bg-rose-100 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-200 transition-colors">
+                  <button onclick="localStorage.clear(); location.reload();" class="px-3.5 py-2 bg-rose-100 text-rose-800 border border-rose-300 rounded-xl text-xs font-bold hover:bg-rose-600 hover:text-white transition-colors">
                     Reset Cache
                   </button>
                 </div>
+              </div>
+
+              <!-- Developer Information Banner -->
+              <div class="p-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 rounded-2xl text-white flex items-center justify-between gap-4 mt-6 shadow-lg">
+                <div class="flex items-center gap-3.5">
+                  <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-black text-base shadow-md">
+                    SA
+                  </div>
+                  <div>
+                    <h5 class="font-extrabold text-white text-sm">Created & Developed by Sumit Atariya</h5>
+                    <p class="text-xs text-indigo-200 mt-0.5">HouseBook • Premier Zero Brokerage Real Estate Network</p>
+                  </div>
+                </div>
+                <span class="px-3.5 py-1.5 bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-extrabold rounded-full shadow-sm">
+                  HouseBook v2.0
+                </span>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Footer Bar -->
-        <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-between">
-          <button onclick="handleSignOut()" class="px-4 py-2 bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-colors">
-            <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out Account
-          </button>
-          <button onclick="closeModal('profile-modal')" class="px-5 py-2.5 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-md transition-colors">
-            Close Dashboard
+        <!-- Sleek Footer Bar -->
+        <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-between sticky bottom-0 z-20 shadow-md">
+          <div class="flex items-center gap-3">
+            <button onclick="handleSignOut()" class="px-4 py-2.5 bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-600 hover:text-white font-extrabold rounded-xl text-xs flex items-center gap-2 transition-all shadow-sm">
+              <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out Account
+            </button>
+            <span class="hidden sm:inline text-xs text-slate-500 font-medium">Developer: <strong class="text-indigo-600">Sumit Atariya</strong></span>
+          </div>
+          <button onclick="closeModal('profile-modal')" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-xl text-xs shadow-md transition-all flex items-center gap-2 active:scale-95">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Back to App</span>
           </button>
         </div>
       </div>
@@ -1552,35 +1933,36 @@
 
     <!-- Mobile Bottom Navigation -->
     <nav class="mobile-bottom-nav">
-      <button onclick="switchTab('explore')" data-tab="explore" class="mobile-tab-btn flex flex-col items-center gap-1 text-indigo-600 text-[10px] font-bold">
+      <button onclick="switchTab('explore')" data-tab="explore" class="mobile-tab-btn flex flex-col items-center justify-center gap-1 text-indigo-600 font-bold text-[10px] transition-all active:scale-95" aria-label="Explore Properties">
         <i data-lucide="compass" class="w-5 h-5"></i>
         <span>Explore</span>
       </button>
 
-      <button onclick="switchTab('shortlist')" data-tab="shortlist" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+      <button onclick="switchTab('shortlist')" data-tab="shortlist" class="mobile-tab-btn flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[10px] transition-all active:scale-95" aria-label="Saved Properties">
         <i data-lucide="heart" class="w-5 h-5"></i>
         <span>Saved</span>
       </button>
 
-      <button onclick="openModal('add-property-modal')" class="flex flex-col items-center -mt-5">
-        <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-600/30">
-          <i data-lucide="plus" class="w-6 h-6"></i>
+      <!-- Elevated Floating Center Post CTA -->
+      <button onclick="openModal('add-property-modal')" class="flex flex-col items-center justify-center -mt-6 group focus:outline-none transition-transform active:scale-90" aria-label="Post Property">
+        <div class="w-12 h-12 bg-gradient-to-tr from-indigo-600 to-indigo-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-600/35 border-2 border-white group-hover:scale-105 transition-all">
+          <i data-lucide="plus" class="w-6 h-6 stroke-[2.5]"></i>
         </div>
-        <span class="text-[10px] font-bold text-indigo-600 mt-0.5">Post</span>
+        <span class="text-[10px] font-extrabold text-indigo-600 mt-1">Post</span>
       </button>
 
-      <button onclick="switchTab('chats')" data-tab="chats" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+      <button onclick="switchTab('chats')" data-tab="chats" class="mobile-tab-btn flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[10px] transition-all active:scale-95" aria-label="Chats and Messages">
         <i data-lucide="message-square" class="w-5 h-5"></i>
         <span>Chats</span>
       </button>
 
-      <button onclick="openModal('profile-modal')" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+      <button onclick="openModal('profile-modal')" data-tab="profile" class="mobile-tab-btn flex flex-col items-center justify-center gap-1 text-slate-400 font-medium text-[10px] transition-all active:scale-95" aria-label="User Profile Drawer">
         <i data-lucide="user" class="w-5 h-5"></i>
         <span>Profile</span>
       </button>
     </nav>
 
     <!-- App JavaScript Logic -->
-    <script src="./app.js"></script>
+    <script type="module" src="./app.js"></script>
   </body>
 </html>
