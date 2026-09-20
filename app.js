@@ -301,7 +301,7 @@ const state = {
       propertyTitle: 'Skyline Azure 3BHK Penthouse',
       propertyPrice: '₹4.50 Cr',
       messages: [
-        { sender: 'seller', text: 'Namaste Rajesh ji! Thank you for inquiring about Skyline Azure Penthouse in Bandra.', time: 'Yesterday 10:15 AM' },
+        { sender: 'seller', text: 'Namaste! Thank you for inquiring about Skyline Azure Penthouse in Bandra.', time: 'Yesterday 10:15 AM' },
         { sender: 'user', text: 'Hi Rajesh! Is this penthouse available for an in-person site visit this Saturday?', time: 'Yesterday 10:20 AM' },
         { sender: 'seller', text: 'Yes, absolutely! Saturday 4:00 PM is open. Would you like me to book a gate pass?', time: 'Yesterday 10:22 AM' }
       ]
@@ -375,7 +375,13 @@ function initApp() {
     if (splash) {
       splash.style.opacity = '0';
       splash.style.transition = 'opacity 0.4s ease';
-      setTimeout(() => splash.remove(), 400);
+      setTimeout(() => {
+        splash.remove();
+        // Prompt Login/Signup Modal if not authenticated
+        if (!state.user.isLoggedIn || !firebaseAuth?.currentUser || firebaseAuth?.currentUser?.isAnonymous) {
+          openModal('auth-modal');
+        }
+      }, 400);
     }
   }, 900);
 }
@@ -1368,25 +1374,203 @@ function saveUserData() {
   } catch {}
 }
 
+// Profile Sub-Tab Switching
+function switchProfileTab(tabName) {
+  const tabs = ['account', 'rewards', 'listings', 'settings'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`tab-btn-${t}`);
+    const panel = document.getElementById(`profile-panel-${t}`);
+    if (btn) {
+      if (t === tabName) {
+        btn.className = 'px-4 py-3 text-xs font-extrabold border-b-2 border-indigo-600 text-indigo-600 whitespace-nowrap flex items-center gap-2 transition-all';
+      } else {
+        btn.className = 'px-4 py-3 text-xs font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 whitespace-nowrap flex items-center gap-2 transition-all';
+      }
+    }
+    if (panel) {
+      if (t === tabName) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    }
+  });
+
+  if (tabName === 'listings') {
+    renderUserListingsInProfile();
+  }
+}
+
+// Render User Listings in Profile
+function renderUserListingsInProfile() {
+  const container = document.getElementById('profile-user-listings-container');
+  if (!container) return;
+
+  const userProperties = state.properties.filter(p => p.postedBy?.name === state.user.name || p.ownerName === state.user.name || p.isUserPosted);
+  
+  if (userProperties.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 p-6">
+        <i data-lucide="building" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
+        <h5 class="text-xs font-bold text-slate-700 mb-1">No Listings Posted Yet</h5>
+        <p class="text-[11px] text-slate-500 mb-4">Post your flat, villa, or commercial space to get inquiries directly from verified buyers.</p>
+        <button onclick="closeModal('profile-modal'); openModal('post-modal');" class="px-4 py-2 bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow-sm hover:bg-emerald-700 transition-colors">
+          Post First Listing (+50 Coins)
+        </button>
+      </div>
+    `;
+  } else {
+    container.innerHTML = userProperties.map(p => `
+      <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover" />
+          <div>
+            <h5 class="font-extrabold text-xs text-slate-800">${p.title}</h5>
+            <p class="text-[11px] text-slate-500">${p.location} • ${formatPrice(p.price)}</p>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">Active</span>
+      </div>
+    `).join('');
+  }
+  refreshIcons();
+}
+
+// Save Profile Changes
+function saveProfileChanges() {
+  const nameInput = document.getElementById('profile-input-name');
+  const emailInput = document.getElementById('profile-input-email');
+  const phoneInput = document.getElementById('profile-input-phone');
+  const roleInput = document.getElementById('profile-input-role');
+  const bioInput = document.getElementById('profile-input-bio');
+
+  if (nameInput && nameInput.value.trim()) state.user.name = nameInput.value.trim();
+  if (emailInput && emailInput.value.trim()) state.user.email = emailInput.value.trim();
+  if (phoneInput) state.user.phone = phoneInput.value.trim();
+  if (roleInput) state.user.role = roleInput.value;
+  if (bioInput) state.user.bio = bioInput.value.trim();
+
+  saveUserData();
+  updateUserStatsUI();
+
+  if (firebaseAuth && firebaseAuth.currentUser) {
+    firebaseAuth.currentUser.updateProfile({
+      displayName: state.user.name
+    }).catch(() => {});
+  }
+
+  showToast('Profile updated successfully! 🎉');
+}
+
+// Claim Daily Reward Coins
+function claimDailyReward() {
+  const lastClaimKey = 'housebook_last_claim_date';
+  const today = new Date().toDateString();
+  const lastClaim = localStorage.getItem(lastClaimKey);
+
+  if (lastClaim === today) {
+    showToast('You already claimed your daily 20 Coins bonus today! Come back tomorrow. 🪙');
+    return;
+  }
+
+  localStorage.setItem(lastClaimKey, today);
+  state.user.coins += 20;
+  saveUserData();
+  updateUserStatsUI();
+
+  if (typeof confetti === 'function') {
+    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+  }
+
+  showToast('Claimed +20 Daily HouseBook Coins! 🎉');
+}
+
+// Select Preset Avatar
+function selectPresetAvatar(url) {
+  state.user.photoURL = url;
+  saveUserData();
+  updateUserStatsUI();
+  
+  if (firebaseAuth && firebaseAuth.currentUser) {
+    firebaseAuth.currentUser.updateProfile({
+      photoURL: url
+    }).catch(() => {});
+  }
+
+  closeModal('avatar-modal');
+  showToast('Profile avatar updated! 📸');
+}
+
+// Save Custom Avatar URL
+function saveCustomAvatarUrl() {
+  const input = document.getElementById('input-custom-avatar');
+  if (!input || !input.value.trim()) return;
+  selectPresetAvatar(input.value.trim());
+}
+
 // Update User Stats on UI
 function updateUserStatsUI() {
   const coinsDisplay = document.getElementById('user-coins-display');
   const modalCoins = document.getElementById('modal-coins-balance');
+  const profileStatCoins = document.getElementById('profile-stat-coins');
+  const rewardsPanelCoins = document.getElementById('rewards-panel-coins');
+
   const shortlistBadge = document.getElementById('shortlist-count-badge');
+  const profileStatShortlist = document.getElementById('profile-stat-shortlist');
+
+  const profileStatUnlocked = document.getElementById('profile-stat-unlocked');
+  const profileStatListings = document.getElementById('profile-stat-listings');
+
   const profileName = document.getElementById('profile-name-display');
+  const profileModalTitle = document.getElementById('profile-modal-title');
+  const profileModalSubtitle = document.getElementById('profile-modal-subtitle');
+  const profileRoleTag = document.getElementById('profile-role-tag');
+
+  const profileModalAvatar = document.getElementById('profile-modal-avatar');
+  const headerAvatar = document.getElementById('header-user-avatar');
 
   const profileInputName = document.getElementById('profile-input-name');
   const profileInputEmail = document.getElementById('profile-input-email');
   const profileInputPhone = document.getElementById('profile-input-phone');
+  const profileInputRole = document.getElementById('profile-input-role');
+  const profileInputBio = document.getElementById('profile-input-bio');
+
+  const userListingsCount = state.properties.filter(p => p.postedBy?.name === state.user.name || p.ownerName === state.user.name || p.isUserPosted).length;
 
   if (coinsDisplay) coinsDisplay.textContent = state.user.coins;
   if (modalCoins) modalCoins.textContent = state.user.coins;
-  if (shortlistBadge) shortlistBadge.textContent = state.user.savedProperties.length;
-  if (profileName) profileName.textContent = state.user.isLoggedIn ? state.user.name : 'Guest User';
+  if (profileStatCoins) profileStatCoins.textContent = state.user.coins;
+  if (rewardsPanelCoins) rewardsPanelCoins.textContent = state.user.coins;
 
-  if (profileInputName) profileInputName.value = state.user.isLoggedIn ? state.user.name : '';
-  if (profileInputEmail) profileInputEmail.value = state.user.isLoggedIn ? state.user.email : '';
-  if (profileInputPhone) profileInputPhone.value = state.user.isLoggedIn ? state.user.phone : '';
+  if (shortlistBadge) shortlistBadge.textContent = state.user.savedProperties.length;
+  if (profileStatShortlist) profileStatShortlist.textContent = state.user.savedProperties.length;
+
+  if (profileStatUnlocked) profileStatUnlocked.textContent = state.user.unlockedProperties ? state.user.unlockedProperties.length : 0;
+  if (profileStatListings) profileStatListings.textContent = userListingsCount;
+
+  const displayName = state.user.isLoggedIn ? state.user.name : 'Guest User';
+  if (profileName) profileName.textContent = displayName;
+  if (profileModalTitle) profileModalTitle.textContent = displayName;
+
+  if (profileModalSubtitle) {
+    profileModalSubtitle.textContent = state.user.isLoggedIn && state.user.email 
+      ? `${state.user.email} • Verified Member` 
+      : 'Not Logged In • Guest Account';
+  }
+
+  if (profileRoleTag) {
+    profileRoleTag.textContent = `${state.user.role || 'Buyer'} Profile`;
+  }
+
+  const avatarUrl = state.user.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
+  if (profileModalAvatar) profileModalAvatar.src = avatarUrl;
+  if (headerAvatar) headerAvatar.src = avatarUrl;
+
+  if (profileInputName && document.activeElement !== profileInputName) profileInputName.value = state.user.isLoggedIn ? state.user.name : 'Guest User';
+  if (profileInputEmail && document.activeElement !== profileInputEmail) profileInputEmail.value = state.user.isLoggedIn ? state.user.email : '';
+  if (profileInputPhone && document.activeElement !== profileInputPhone) profileInputPhone.value = state.user.phone || '';
+  if (profileInputRole) profileInputRole.value = state.user.role || 'Buyer';
+  if (profileInputBio && document.activeElement !== profileInputBio) profileInputBio.value = state.user.bio || '';
 }
 
 // Setup Event Listeners
@@ -1961,6 +2145,10 @@ function updateAuthUI(isLoggedIn, authUser) {
   const headerAvatar = document.getElementById('header-user-avatar');
   const guestNotice = document.getElementById('profile-guest-notice');
 
+  const modalTitle = document.getElementById('profile-modal-title');
+  const modalSubtitle = document.getElementById('profile-modal-subtitle');
+  const modalAvatar = document.getElementById('profile-modal-avatar');
+
   const isRealUser = isLoggedIn && authUser && !authUser.isAnonymous;
 
   if (isRealUser) {
@@ -1971,10 +2159,18 @@ function updateAuthUI(isLoggedIn, authUser) {
     const displayName = authUser.displayName || authUser.email?.split('@')[0] || 'Member';
     if (profileName) profileName.textContent = displayName;
     if (headerAvatar && authUser.photoURL) headerAvatar.src = authUser.photoURL;
+
+    if (modalTitle) modalTitle.textContent = displayName;
+    if (modalSubtitle) modalSubtitle.textContent = authUser.email ? `${authUser.email} • Verified Member` : 'Verified Member';
+    if (modalAvatar && authUser.photoURL) modalAvatar.src = authUser.photoURL;
   } else {
     if (loginBtn) loginBtn.classList.remove('hidden');
     if (profileBtn) profileBtn.classList.add('hidden');
     if (guestNotice) guestNotice.classList.remove('hidden');
+
+    if (modalTitle) modalTitle.textContent = 'Guest User';
+    if (modalSubtitle) modalSubtitle.textContent = 'Not Logged In • Guest Account';
+    if (modalAvatar) modalAvatar.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80';
   }
   refreshIcons();
 }
@@ -2163,7 +2359,13 @@ Object.assign(window, {
   handleEmailAuth,
   handleGoogleAuth,
   handleGuestAuth,
-  handleSignOut
+  handleSignOut,
+  switchProfileTab,
+  saveProfileChanges,
+  claimDailyReward,
+  selectPresetAvatar,
+  saveCustomAvatarUrl,
+  renderUserListingsInProfile
 });
 
 // Start when DOM is loaded
