@@ -282,14 +282,15 @@ const state = {
     }
   ],
   user: {
-    name: 'Rajesh Kumar',
-    email: 'rajesh.k@gmail.com',
-    phone: '+91 98765 43210',
+    name: 'Guest User',
+    email: '',
+    phone: '',
     role: 'Buyer',
-    coins: 150,
+    coins: 100,
     isVip: false,
-    savedProperties: ['prop-101'],
-    unlockedProperties: []
+    savedProperties: [],
+    unlockedProperties: [],
+    isLoggedIn: false
   },
   chats: [
     {
@@ -330,6 +331,9 @@ const CURRENCY_RATES = {
 
 // Initialize Application
 function initApp() {
+  // Initialize Firebase Auth
+  initFirebaseAuth();
+
   // Load custom properties from localStorage
   try {
     const savedProps = localStorage.getItem('housebook_custom_properties');
@@ -1096,10 +1100,10 @@ function handlePostProperty(event) {
     address,
     images: [imageUrl],
     amenities: ['24/7 Security', 'Covered Parking', 'High Speed WiFi', 'Power Backup', 'Water Supply'],
-    ownerId: 'user-me',
-    ownerName: state.user.name,
-    ownerPhone: state.user.phone,
-    ownerEmail: state.user.email,
+    ownerId: state.user.uid || 'user-me',
+    ownerName: state.user.isLoggedIn ? state.user.name : 'Verified Owner',
+    ownerPhone: state.user.isLoggedIn ? state.user.phone : '+91 98220 11223',
+    ownerEmail: state.user.isLoggedIn ? state.user.email : 'owner@housebook.com',
     ownerAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=256&q=80',
     isFeatured: true,
     isVerified: true,
@@ -1371,10 +1375,18 @@ function updateUserStatsUI() {
   const shortlistBadge = document.getElementById('shortlist-count-badge');
   const profileName = document.getElementById('profile-name-display');
 
+  const profileInputName = document.getElementById('profile-input-name');
+  const profileInputEmail = document.getElementById('profile-input-email');
+  const profileInputPhone = document.getElementById('profile-input-phone');
+
   if (coinsDisplay) coinsDisplay.textContent = state.user.coins;
   if (modalCoins) modalCoins.textContent = state.user.coins;
   if (shortlistBadge) shortlistBadge.textContent = state.user.savedProperties.length;
-  if (profileName) profileName.textContent = state.user.name;
+  if (profileName) profileName.textContent = state.user.isLoggedIn ? state.user.name : 'Guest User';
+
+  if (profileInputName) profileInputName.value = state.user.isLoggedIn ? state.user.name : '';
+  if (profileInputEmail) profileInputEmail.value = state.user.isLoggedIn ? state.user.email : '';
+  if (profileInputPhone) profileInputPhone.value = state.user.isLoggedIn ? state.user.phone : '';
 }
 
 // Setup Event Listeners
@@ -1512,8 +1524,8 @@ function handlePostRequirement(event) {
   const newReq = {
     id: `req-${Date.now()}`,
     title,
-    buyerName: state.user.name,
-    buyerPhone: state.user.phone,
+    buyerName: state.user.isLoggedIn ? state.user.name : 'Verified Buyer',
+    buyerPhone: state.user.isLoggedIn ? state.user.phone : '+91 98220 11223',
     city,
     locality,
     bedrooms,
@@ -1891,6 +1903,232 @@ window.addEventListener('scroll', () => {
   }
 });
 
+// Firebase Auth Configuration
+const firebaseConfig = {
+  projectId: "gen-lang-client-0709806365",
+  appId: "1:193700883699:web:dbb04ddaadbe07be4adb86",
+  apiKey: "AIzaSyCc0O6fAib-ghflSdz9OJ5HsqYbkpbSmSU",
+  authDomain: "gen-lang-client-0709806365.firebaseapp.com",
+  firestoreDatabaseId: "ai-studio-452bf84c-a7a0-4bec-8e0e-da245b4f0e11",
+  storageBucket: "gen-lang-client-0709806365.firebasestorage.app",
+  messagingSenderId: "193700883699",
+  measurementId: "",
+  oAuthClientId: "193700883699-kg1oi5vpvj6gca38mv6i175pp21dn1ot.apps.googleusercontent.com",
+  recaptchaSiteKey: ""
+};
+
+let firebaseAuth = null;
+let authMode = 'login'; // 'login' or 'signup'
+
+function initFirebaseAuth() {
+  if (typeof firebase !== 'undefined') {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    firebaseAuth = firebase.auth();
+
+    firebaseAuth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        const displayName = authUser.displayName || (authUser.isAnonymous ? 'Guest User' : authUser.email?.split('@')[0] || 'Member');
+        const email = authUser.email || (authUser.isAnonymous ? 'guest@housebook.com' : 'user@housebook.com');
+        const photo = authUser.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80';
+
+        state.user.name = displayName;
+        state.user.email = email;
+        state.user.phone = authUser.phoneNumber || '';
+        state.user.uid = authUser.uid;
+        state.user.photoURL = photo;
+        state.user.isLoggedIn = true;
+
+        updateAuthUI(true, authUser);
+      } else {
+        state.user.name = 'Guest User';
+        state.user.email = '';
+        state.user.phone = '';
+        state.user.uid = null;
+        state.user.isLoggedIn = false;
+        updateAuthUI(false, null);
+      }
+      updateUserStatsUI();
+    });
+  }
+}
+
+function updateAuthUI(isLoggedIn, authUser) {
+  const loginBtn = document.getElementById('nav-login-btn');
+  const profileBtn = document.getElementById('nav-profile-btn');
+  const profileName = document.getElementById('profile-name-display');
+  const headerAvatar = document.getElementById('header-user-avatar');
+  const guestNotice = document.getElementById('profile-guest-notice');
+
+  const isRealUser = isLoggedIn && authUser && !authUser.isAnonymous;
+
+  if (isRealUser) {
+    if (loginBtn) loginBtn.classList.add('hidden');
+    if (profileBtn) profileBtn.classList.remove('hidden');
+    if (guestNotice) guestNotice.classList.add('hidden');
+
+    const displayName = authUser.displayName || authUser.email?.split('@')[0] || 'Member';
+    if (profileName) profileName.textContent = displayName;
+    if (headerAvatar && authUser.photoURL) headerAvatar.src = authUser.photoURL;
+  } else {
+    if (loginBtn) loginBtn.classList.remove('hidden');
+    if (profileBtn) profileBtn.classList.add('hidden');
+    if (guestNotice) guestNotice.classList.remove('hidden');
+  }
+  refreshIcons();
+}
+
+function toggleAuthMode() {
+  authMode = authMode === 'login' ? 'signup' : 'login';
+  const nameField = document.getElementById('auth-name-field');
+  const submitLabel = document.getElementById('auth-submit-label');
+  const toggleBtn = document.getElementById('auth-toggle-mode-btn');
+  const title = document.getElementById('auth-modal-title');
+  const subtitle = document.getElementById('auth-modal-subtitle');
+  const feedback = document.getElementById('auth-feedback-box');
+
+  if (feedback) feedback.classList.add('hidden');
+
+  if (authMode === 'signup') {
+    if (nameField) nameField.classList.remove('hidden');
+    if (submitLabel) submitLabel.textContent = 'Create Free Account';
+    if (toggleBtn) toggleBtn.textContent = 'Already have an account? Sign In';
+    if (title) title.textContent = 'Create HouseBook Account';
+    if (subtitle) subtitle.textContent = 'Join thousands of homebuyers, renters, and verified owners.';
+  } else {
+    if (nameField) nameField.classList.add('hidden');
+    if (submitLabel) submitLabel.textContent = 'Sign In to Account';
+    if (toggleBtn) toggleBtn.textContent = "Don't have an account? Sign Up";
+    if (title) title.textContent = 'Welcome Back';
+    if (subtitle) subtitle.textContent = 'Sign in to save properties, post listings, and chat with owners.';
+  }
+}
+
+async function handleEmailAuth(event) {
+  event.preventDefault();
+  const feedback = document.getElementById('auth-feedback-box');
+  const submitBtn = document.getElementById('auth-submit-btn');
+
+  const email = document.getElementById('auth-input-email')?.value.trim();
+  const password = document.getElementById('auth-input-password')?.value.trim();
+  const name = document.getElementById('auth-input-name')?.value.trim();
+
+  if (!email || !password) return;
+
+  try {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-70');
+    }
+
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 block mb-4';
+      feedback.textContent = authMode === 'signup' ? 'Creating your account with Firebase...' : 'Signing in with Firebase Auth...';
+    }
+
+    if (!firebaseAuth) {
+      throw new Error('Firebase Auth initialized check failed');
+    }
+
+    if (authMode === 'signup') {
+      const userCred = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+      if (name && userCred.user) {
+        await userCred.user.updateProfile({ displayName: name });
+      }
+    } else {
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+    }
+
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block mb-4';
+      feedback.textContent = '✅ Success! Authenticated via Firebase.';
+    }
+
+    setTimeout(() => {
+      closeModal('auth-modal');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-70');
+      }
+    }, 600);
+
+  } catch (err) {
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 block mb-4';
+      feedback.textContent = `❌ ${err.message || 'Authentication failed'}`;
+    }
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('opacity-70');
+    }
+  }
+}
+
+async function handleGoogleAuth() {
+  const feedback = document.getElementById('auth-feedback-box');
+  try {
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 block mb-4';
+      feedback.textContent = 'Connecting with Google Authentication...';
+    }
+
+    if (!firebaseAuth) {
+      throw new Error('Firebase Auth not initialized');
+    }
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebaseAuth.signInWithPopup(provider);
+
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block mb-4';
+      feedback.textContent = '✅ Google Sign-In Successful!';
+    }
+
+    setTimeout(() => closeModal('auth-modal'), 600);
+  } catch (err) {
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 block mb-4';
+      feedback.textContent = `❌ ${err.message || 'Google Auth failed'}`;
+    }
+  }
+}
+
+async function handleGuestAuth() {
+  const feedback = document.getElementById('auth-feedback-box');
+  try {
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block mb-4';
+      feedback.textContent = 'Logging in anonymously via Firebase...';
+    }
+
+    if (!firebaseAuth) {
+      throw new Error('Firebase Auth not initialized');
+    }
+
+    await firebaseAuth.signInAnonymously();
+
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 block mb-4';
+      feedback.textContent = '✅ Signed in as Anonymous Guest!';
+    }
+
+    setTimeout(() => closeModal('auth-modal'), 600);
+  } catch (err) {
+    if (feedback) {
+      feedback.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 block mb-4';
+      feedback.textContent = `❌ ${err.message || 'Guest Auth failed'}`;
+    }
+  }
+}
+
+async function handleSignOut() {
+  if (firebaseAuth) {
+    await firebaseAuth.signOut();
+    closeModal('profile-modal');
+  }
+}
+
 // Expose all interactive functions to global window for universal browser & inline handler compatibility
 Object.assign(window, {
   state,
@@ -1919,7 +2157,13 @@ Object.assign(window, {
   showToast,
   refreshIcons,
   openOwnerProfile,
-  toggleDarkMode
+  toggleDarkMode,
+  initFirebaseAuth,
+  toggleAuthMode,
+  handleEmailAuth,
+  handleGoogleAuth,
+  handleGuestAuth,
+  handleSignOut
 });
 
 // Start when DOM is loaded
