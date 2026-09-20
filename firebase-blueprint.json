@@ -1,0 +1,188 @@
+{
+  "entities": {
+    "Property": {
+      "title": "Property",
+      "description": "Real estate listing including sale and rental properties",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "price": { "type": "number" },
+        "listingType": { "type": "string", "enum": ["sale", "rent"] },
+        "propertyType": { "type": "string", "enum": ["apartment", "villa", "plot", "commercial", "penthouse"] },
+        "city": { "type": "string", "maxLength": 80 },
+        "locality": { "type": "string", "maxLength": 120 },
+        "address": { "type": "string", "maxLength": 200 },
+        "bedrooms": { "type": "number" },
+        "bathrooms": { "type": "number" },
+        "areaSqFt": { "type": "number" },
+        "furnishing": { "type": "string", "enum": ["unfurnished", "semi-furnished", "furnished"] },
+        "ownerId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerName": { "type": "string", "maxLength": 100 },
+        "ownerPhone": { "type": "string", "maxLength": 25 },
+        "ownerEmail": { "type": "string", "maxLength": 120 },
+        "isVerified": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "views": { "type": "number" },
+        "status": { "type": "string", "enum": ["available", "sold", "rented"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["title", "price", "listingType", "propertyType", "city", "locality", "ownerId", "ownerName", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with coins, role, and verification details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "maxLength": 120 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 25 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["buyer", "owner", "agent"] },
+        "coins": { "type": "number" },
+        "subscriptionTier": { "type": "string", "enum": ["free", "silver", "gold", "platinum"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["uid", "email", "displayName", "role", "coins", "subscriptionTier"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User in-app notifications and alerts",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 100 },
+        "message": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string", "enum": ["chat", "lead", "coin", "kyc", "system"] },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "title", "message", "type", "read", "createdAt"]
+    },
+    "CoinTransaction": {
+      "title": "CoinTransaction",
+      "description": "Ledger entry for coin credits and debits",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "amount", "type", "description", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Chat thread between buyers, owners, and agents",
+      "type": "object",
+      "properties": {
+        "lastMessage": { "type": "string", "maxLength": 1000 },
+        "lastMessageTimestamp": { "type": "number" },
+        "lastMessageSenderId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["lastMessageTimestamp", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Individual message within a conversation",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "text": { "type": "string", "maxLength": 1000 },
+        "timestamp": { "type": "number" },
+        "type": { "type": "string", "enum": ["text", "site_visit", "offer", "contact_share", "system"] }
+      },
+      "required": ["senderId", "senderName", "text", "timestamp", "type"]
+    },
+    "KycApplication": {
+      "title": "KycApplication",
+      "description": "Identity verification submission",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userName": { "type": "string", "maxLength": 100 },
+        "userEmail": { "type": "string", "maxLength": 120 },
+        "documentType": { "type": "string", "enum": ["aadhaar", "pan", "passport", "voter_id"] },
+        "documentNumber": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "submittedAt": { "type": "number" }
+      },
+      "required": ["userId", "userName", "documentType", "documentNumber", "status", "submittedAt"]
+    },
+    "LegalDocument": {
+      "title": "LegalDocument",
+      "description": "Standardized verified legal templates",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 120 },
+        "category": { "type": "string", "enum": ["deed", "agreement", "encumbrance", "rera", "noc"] },
+        "state": { "type": "string", "maxLength": 50 },
+        "uploadedAt": { "type": "number" },
+        "verified": { "type": "boolean" }
+      },
+      "required": ["title", "category", "state", "uploadedAt", "verified"]
+    },
+    "UpiPayment": {
+      "title": "UpiPayment",
+      "description": "UPI coin package transaction receipts",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "packageId": { "type": "string", "maxLength": 50 },
+        "packageName": { "type": "string", "maxLength": 80 },
+        "coinsCredited": { "type": "number" },
+        "amountInr": { "type": "number" },
+        "utrNumber": { "type": "string", "maxLength": 50 },
+        "receiptNumber": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["success", "pending", "failed"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "packageId", "coinsCredited", "amountInr", "utrNumber", "receiptNumber", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/properties/{propertyId}": {
+      "schema": "Property",
+      "description": "Collection of verified property listings"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles and wallet state"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "Targeted notifications for users"
+    },
+    "/coin_transactions/{transactionId}": {
+      "schema": "CoinTransaction",
+      "description": "Coin transaction history ledger"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Chat threads between buyers and sellers"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Chat messages within a thread"
+    },
+    "/kyc_applications/{applicationId}": {
+      "schema": "KycApplication",
+      "description": "KYC user identity verification applications"
+    },
+    "/legal_documents/{documentId}": {
+      "schema": "LegalDocument",
+      "description": "Legal deed and contract templates"
+    },
+    "/upi_payments/{paymentId}": {
+      "schema": "UpiPayment",
+      "description": "UPI payment verification receipts"
+    }
+  }
+}

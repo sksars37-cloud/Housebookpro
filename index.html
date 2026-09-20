@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HouseBook - Real Estate & Housing Portal</title>
+    <meta name="description" content="Discover verified homes, rentals, and commercial spaces on HouseBook with direct owner chat, zero brokerage assistance, and coin rewards." />
+    <meta property="og:title" content="HouseBook - Real Estate & Housing Portal" />
+    <meta property="og:description" content="Discover verified homes, rentals, and commercial spaces on HouseBook with direct owner chat, zero brokerage assistance, and coin rewards." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN for zero-build universal browser & host compatibility) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              heading: ['"Outfit"', 'sans-serif']
+            },
+            colors: {
+              brand: {
+                50: '#eef2ff',
+                100: '#e0e7ff',
+                500: '#6366f1',
+                600: '#4f46e5',
+                700: '#4338ca',
+                800: '#3730a3',
+                900: '#312e81'
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Lucide Vector Icons (Universal CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Confetti Celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased font-sans min-h-screen flex flex-col">
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 bg-slate-900 z-[1000] flex flex-col items-center justify-center p-6 text-white text-center">
+      <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/30 mb-4 animate-bounce">
+        <i data-lucide="building-2" class="w-9 h-9 text-white"></i>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight font-heading mb-1">HouseBook</h1>
+      <p class="text-slate-400 text-sm mb-6">Find Verified Homes, Rentals & Penthouses</p>
+      <div class="w-48 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+        <div class="h-full bg-indigo-500 rounded-full animate-pulse w-full"></div>
+      </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header id="main-header" class="sticky top-0 z-40 glass-nav border-b border-slate-200/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        <!-- Logo -->
+        <a href="#" onclick="switchTab('explore')" class="flex items-center gap-2.5 flex-shrink-0 group">
+          <div class="w-10 h-10 bg-indigo-600 group-hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/20 transition-all">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xl font-extrabold tracking-tight font-heading text-slate-900">House<span class="text-indigo-600">Book</span></span>
+            </div>
+            <span class="text-[10px] font-semibold text-emerald-600 tracking-wider uppercase block -mt-1">Verified Living</span>
+          </div>
+        </a>
+
+        <!-- Search Bar (Desktop) -->
+        <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input 
+            type="text" 
+            id="nav-search-input"
+            placeholder="Search by city, locality, penthouse or villa..." 
+            class="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+          />
+        </div>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <!-- Currency Selector -->
+          <div class="relative hidden sm:block">
+            <select 
+              id="currency-select"
+              class="appearance-none bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 pl-3 pr-7 rounded-xl border border-slate-200 focus:outline-none cursor-pointer transition-colors"
+            >
+              <option value="INR">₹ INR</option>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <!-- Coins Balance Button -->
+          <button 
+            type="button" 
+            onclick="openModal('coins-modal')" 
+            class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl text-xs font-bold transition-all"
+            title="HouseBook Rewards Center"
+          >
+            <span class="text-sm">🪙</span>
+            <span id="user-coins-display">150</span>
+            <span class="hidden lg:inline text-[10px] text-amber-600">Coins</span>
+          </button>
+
+          <!-- VIP Button -->
+          <button 
+            type="button"
+            onclick="openModal('vip-modal')"
+            class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl text-xs font-bold shadow-sm hover:brightness-105 transition-all"
+          >
+            <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+            <span>VIP</span>
+          </button>
+
+          <!-- Post Free Property CTA -->
+          <button 
+            type="button"
+            onclick="openModal('add-property-modal')"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-md shadow-indigo-600/20 transition-all"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Post Free Property</span>
+            <span class="sm:hidden">Post</span>
+          </button>
+
+          <!-- Notifications Bell -->
+          <button 
+            type="button"
+            onclick="openModal('notif-modal')"
+            class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 relative transition-colors"
+            title="Notifications"
+          >
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="w-2 h-2 rounded-full bg-rose-500 absolute top-2 right-2"></span>
+          </button>
+
+          <!-- User Profile -->
+          <button 
+            type="button"
+            onclick="openModal('profile-modal')"
+            class="flex items-center gap-2 pl-1.5 pr-2.5 py-1 rounded-xl hover:bg-slate-100 transition-colors"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" 
+              class="w-8 h-8 rounded-full object-cover border border-slate-300"
+              alt="User profile"
+            />
+            <span id="profile-name-display" class="hidden xl:inline text-xs font-bold text-slate-800">Rajesh K.</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+
+      <!-- Hero Search Section -->
+      <section id="hero-section" class="relative rounded-3xl overflow-hidden bg-slate-900 text-white p-4 sm:p-6 shadow-xl max-w-3xl mx-auto">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 w-full">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold mb-3">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Verified Real Estate Marketplace • 0% Brokerage</span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black font-heading tracking-tight mb-2 leading-tight">
+            Find Your Next Home or Villa
+          </h2>
+
+          <!-- Search & Filter Card -->
+          <div class="bg-white rounded-2xl p-3 sm:p-4 text-slate-800 shadow-xl border border-slate-200/90 mt-3">
+            <!-- Search Text Input -->
+            <div class="relative mb-2.5">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input 
+                type="text" 
+                id="hero-search-input" 
+                placeholder="Search by locality, city, project or keyword (e.g. Bandra, Villa, Penthouse)..." 
+                class="w-full pl-9 pr-8 py-2 bg-slate-50 hover:bg-slate-100/80 focus:bg-white text-xs font-medium text-slate-800 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400"
+              />
+            </div>
+
+            <!-- Filter Pills (Buy / Rent / Commercial / Luxury) -->
+            <div class="flex flex-wrap gap-1.5 mb-3 border-b border-slate-100 pb-3">
+              <button type="button" data-type="all" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition-colors">
+                All Properties
+              </button>
+              <button type="button" data-type="sale" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                Buy
+              </button>
+              <button type="button" data-type="rent" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                Rent
+              </button>
+              <button type="button" data-type="commercial" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                Commercial
+              </button>
+              <button type="button" data-type="luxury" class="filter-pill-type px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                Luxury
+              </button>
+            </div>
+
+            <!-- Dropdown Filters Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <!-- City Select -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">City</label>
+                <select id="filter-city" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <option value="all">All Cities</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="bangalore">Bangalore</option>
+                  <option value="pune">Pune</option>
+                  <option value="delhi ncr">Delhi NCR</option>
+                  <option value="gurgaon">Gurgaon</option>
+                  <option value="hyderabad">Hyderabad</option>
+                </select>
+              </div>
+
+              <!-- Bedrooms / BHK -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">BHK</label>
+                <select id="filter-bhk" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <option value="all">Any BHK</option>
+                  <option value="1">1 BHK</option>
+                  <option value="2">2 BHK</option>
+                  <option value="3">3 BHK</option>
+                  <option value="4">4+ BHK</option>
+                </select>
+              </div>
+
+              <!-- Property Type -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Type</label>
+                <select id="filter-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <option value="all">All Types</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="villa">Villa</option>
+                  <option value="penthouse">Penthouse</option>
+                  <option value="studio">Studio</option>
+                  <option value="commercial">Commercial</option>
+                  <option value="duplex">Duplex</option>
+                </select>
+              </div>
+
+              <!-- Budget Range -->
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Budget</label>
+                <select id="filter-budget" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                  <option value="all">Any Budget</option>
+                  <option value="budget-low">Under ₹50L</option>
+                  <option value="budget-mid">₹50L - ₹2Cr</option>
+                  <option value="budget-high">₹2Cr+</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Primary Navigation Tabs -->
+      <nav id="section-tabs" class="flex flex-wrap gap-2 p-1.5 bg-slate-200/70 rounded-2xl max-w-fit mx-auto">
+        <button 
+          type="button"
+          data-tab="explore" 
+          onclick="switchTab('explore')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-indigo-600 text-white shadow-md transition-all"
+        >
+          <i data-lucide="compass" class="w-4 h-4"></i>
+          <span>Explore Properties</span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="requests" 
+          onclick="switchTab('requests')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+        >
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+          <span>Property Requests</span>
+          <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">New</span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="analytics" 
+          onclick="switchTab('analytics')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+        >
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          <span>Owner Analytics</span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="shortlist" 
+          onclick="switchTab('shortlist')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+        >
+          <i data-lucide="heart" class="w-4 h-4"></i>
+          <span>Shortlisted</span>
+          <span id="shortlist-count-badge" class="bg-rose-100 text-rose-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full">1</span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="chats" 
+          onclick="switchTab('chats')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+        >
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>In-App Chats</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        </button>
+
+        <button 
+          type="button"
+          data-tab="legal" 
+          onclick="switchTab('legal')"
+          class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-600 hover:bg-slate-100 transition-all"
+        >
+          <i data-lucide="scale" class="w-4 h-4"></i>
+          <span>Legal & KYC</span>
+        </button>
+      </nav>
+
+      <!-- VIEW 1: EXPLORE PROPERTIES -->
+      <section id="view-explore" class="space-y-6">
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">
+              Featured Housing Listings
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-500">
+              Verified owner listings • Direct contact with zero intermediary fee
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              onclick="resetAllFilters()" 
+              class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-colors"
+            >
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Properties Grid -->
+        <div id="properties-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Property Cards Rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- VIEW 2: SHORTLISTED PROPERTIES -->
+      <section id="view-shortlist" class="hidden space-y-6">
+        <div>
+          <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">Your Saved Shortlist</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Properties you have bookmarked for quick comparison and site visits.</p>
+        </div>
+
+        <div id="shortlist-grid" class="grid grid-cols-1 gap-4">
+          <!-- Shortlisted items rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- VIEW 3: IN-APP CHATS & ENQUIRIES -->
+      <section id="view-chats" class="hidden">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-3 min-h-[560px]">
+          <!-- Conversations List (Left) -->
+          <div class="border-r border-slate-200 p-4 flex flex-col bg-slate-50/50">
+            <div class="mb-4">
+              <h4 class="font-extrabold text-slate-900 text-base font-heading">Messages & Enquiries</h4>
+              <p class="text-xs text-slate-500">Active conversations with sellers & agents</p>
+            </div>
+            <div id="chat-conversations-list" class="space-y-1 overflow-y-auto flex-1">
+              <!-- Chat list rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Active Chat Window (Right) -->
+          <div class="md:col-span-2 flex flex-col h-full bg-white">
+            <!-- Chat Header -->
+            <div id="chat-active-header" class="p-4 border-b border-slate-200 flex items-center justify-between">
+              <!-- Chat header rendered dynamically -->
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto min-h-[360px] bg-slate-50/30">
+              <!-- Messages rendered dynamically -->
+            </div>
+
+            <!-- Input Bar -->
+            <div class="p-3 border-t border-slate-200 bg-white">
+              <form onsubmit="event.preventDefault(); sendChatMessage();" class="flex items-center gap-2">
+                <input 
+                  type="text" 
+                  id="chat-input-field" 
+                  placeholder="Type your inquiry or request site visit..." 
+                  class="flex-1 px-4 py-2.5 bg-slate-100 rounded-xl text-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                />
+                <button 
+                  type="submit" 
+                  class="p-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-md transition-colors flex-shrink-0"
+                >
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: LEGAL & KYC CENTER -->
+      <section id="view-legal" class="hidden space-y-8">
+        <div>
+          <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">Legal & Verification Desk</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Government ID verification, digital tenancy agreements, and title clearance certificates.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Digital Agreement Generator -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-slate-800 text-base font-heading">Digital Rental Agreement Draft</h4>
+                <p class="text-xs text-slate-500">Generate legally formatted tenancy clauses in 30 seconds</p>
+              </div>
+            </div>
+
+            <form id="agreement-generator-form" class="space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Landlord / Owner Name</label>
+                  <input type="text" name="ownerName" value="Rajesh Sharma" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tenant Full Name</label>
+                  <input type="text" name="tenantName" value="Rajesh Kumar" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Property Address</label>
+                <input type="text" name="propAddress" value="Skyline Azure Penthouse, Carter Road, Bandra West, Mumbai" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Monthly Rent (₹)</label>
+                  <input type="text" name="rentAmount" value="85,000" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Deposit (₹)</label>
+                  <input type="text" name="depositAmount" value="2,50,000" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Tenure (Months)</label>
+                  <select name="leaseMonths" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
+                    <option value="11">11 Months</option>
+                    <option value="24">24 Months</option>
+                    <option value="36">36 Months</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-xs shadow-md transition-colors mt-2">
+                Generate Digital Draft
+              </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="agreement-result-box" class="hidden mt-4 pt-4 border-t border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">Draft Preview</span>
+              <pre id="agreement-preview-text" class="bg-slate-900 text-slate-200 p-3 rounded-xl text-xs font-mono overflow-auto max-h-48 whitespace-pre-wrap leading-relaxed"></pre>
+            </div>
+          </div>
+
+          <!-- KYC Identity Verification -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                  <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-extrabold text-slate-800 text-base font-heading">Government ID Verification</h4>
+                  <p class="text-xs text-slate-500">Get the Verified Buyer badge to unlock faster seller replies</p>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Document Type</label>
+                  <select id="kyc-type-select" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
+                    <option value="aadhaar">Aadhaar Card (UIDAI)</option>
+                    <option value="pan">PAN Card (Income Tax Dept)</option>
+                    <option value="passport">Indian Passport</option>
+                    <option value="voter_id">Voter ID</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1">Document Number / ID</label>
+                  <input type="text" id="kyc-number-input" placeholder="e.g. 9876-5432-1098" value="9876-5432-1098" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none" />
+                </div>
+
+                <div id="kyc-status-badge" class="pt-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 font-bold rounded-xl text-xs border border-emerald-200">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                    Status: Verified Resident
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="verifyKyc()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-xs shadow-md transition-colors mt-6">
+              Simulate ID Verification
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 5: PROPERTY REQUESTS & BUYER REQUIREMENTS -->
+      <section id="view-requests" class="hidden space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">Buyer Property Requests</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Active requirements posted by verified buyers and tenants. Fulfill or pitch your property directly.</p>
+          </div>
+          <button 
+            type="button" 
+            onclick="openModal('add-request-modal')" 
+            class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-md flex items-center gap-2 self-start transition-all"
+          >
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Post Requirement Request</span>
+          </button>
+        </div>
+
+        <!-- Requests Grid -->
+        <div id="property-requests-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Property requests rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- VIEW 6: OWNER PROPERTY ANALYSIS PAGE -->
+      <section id="view-analytics" class="hidden space-y-8">
+        <div>
+          <h3 class="text-2xl font-extrabold font-heading text-slate-900 tracking-tight">Owner Property Analysis Dashboard</h3>
+          <p class="text-xs sm:text-sm text-slate-500">Real-time performance metrics, buyer impression analytics, lead unlocks, and demand stats for your listings.</p>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Listings</span>
+              <div class="w-8 h-8 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="building" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="analytics-total-listings" class="text-3xl font-black text-slate-900">6</div>
+            <span class="text-[11px] text-emerald-600 font-bold mt-1">100% Verified Listings</span>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Views</span>
+              <div class="w-8 h-8 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="analytics-total-views" class="text-3xl font-black text-slate-900">4,820</div>
+            <span class="text-[11px] text-blue-600 font-bold mt-1">↑ 18% this week</span>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Contact Unlocks</span>
+              <div class="w-8 h-8 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="unlock" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="analytics-total-unlocks" class="text-3xl font-black text-slate-900">87</div>
+            <span class="text-[11px] text-amber-600 font-bold mt-1">🪙 870 Coins Generated</span>
+          </div>
+
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Inquiry Conversion</span>
+              <div class="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="trending-up" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div id="analytics-conversion-rate" class="text-3xl font-black text-slate-900">8.4%</div>
+            <span class="text-[11px] text-emerald-600 font-bold mt-1">High Buyer Demand</span>
+          </div>
+        </div>
+
+        <!-- Property Wise Performance Table -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-extrabold text-slate-900 text-base font-heading">Listing Performance Breakdown</h4>
+              <p class="text-xs text-slate-500">Individual performance metrics for each property listing</p>
+            </div>
+          </div>
+
+          <div id="analytics-properties-table" class="space-y-3">
+            <!-- Property performance items rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Recent Buyer Leads & Inquiries -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+          <h4 class="font-extrabold text-slate-900 text-base font-heading">Recent Buyer Inquiries & Leads</h4>
+          <div id="analytics-leads-list" class="space-y-3">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MODAL 1: PROPERTY DETAIL MODAL -->
+    <div id="property-detail-modal" class="modal-overlay">
+      <div class="modal-content max-w-4xl" id="property-detail-body">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+
+    <!-- MODAL 2: POST FREE PROPERTY MODAL -->
+    <div id="add-property-modal" class="modal-overlay">
+      <div class="modal-content max-w-xl p-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+          <div>
+            <h3 class="text-lg font-extrabold text-slate-900 font-heading">Post New Property Listing</h3>
+            <p class="text-xs text-slate-500">Reach thousands of active tenants and buyers for free</p>
+          </div>
+          <button onclick="closeModal('add-property-modal')" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form id="add-property-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Property Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Skyline 3BHK Penthouse with Private Pool" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Listing Type *</label>
+              <select name="listingType" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                <option value="sale">For Sale (Buy)</option>
+                <option value="rent">For Rent</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Property Type *</label>
+              <select name="propertyType" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                <option value="apartment">Apartment</option>
+                <option value="villa">Independent Villa</option>
+                <option value="penthouse">Penthouse</option>
+                <option value="studio">Studio</option>
+                <option value="commercial">Commercial</option>
+                <option value="duplex">Duplex</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Price (₹ INR) *</label>
+              <input type="number" name="price" required placeholder="e.g. 45000000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Super Area (Sq.Ft) *</label>
+              <input type="number" name="areaSqFt" required placeholder="e.g. 1850" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Bedrooms</label>
+              <select name="bedrooms" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3" selected>3 BHK</option>
+                <option value="4">4+ BHK</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Bathrooms</label>
+              <select name="bathrooms" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                <option value="1">1 Bath</option>
+                <option value="2">2 Baths</option>
+                <option value="3" selected>3 Baths</option>
+                <option value="4">4+ Baths</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Furnishing</label>
+              <select name="furnishing" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                <option value="furnished">Furnished</option>
+                <option value="semi_furnished">Semi-Furnished</option>
+                <option value="unfurnished">Unfurnished</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">City *</label>
+              <input type="text" name="city" required placeholder="e.g. Mumbai" value="Mumbai" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Locality *</label>
+              <input type="text" name="locality" required placeholder="e.g. Bandra West" value="Bandra West" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Complete Address</label>
+            <input type="text" name="address" placeholder="e.g. Carter Road, Bandra West" value="Carter Road, Bandra West, Mumbai" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Cover Photo URL (or leave default)</label>
+            <input type="url" name="imageUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono" />
+          </div>
+
+          <div class="pt-2 flex justify-end gap-2">
+            <button type="button" onclick="closeModal('add-property-modal')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md">
+              Publish Listing
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL 3: COINS REWARD CENTER MODAL -->
+    <div id="coins-modal" class="modal-overlay">
+      <div class="modal-content max-w-md p-6 text-center">
+        <div class="w-16 h-16 bg-amber-100 text-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-3 text-3xl shadow-inner">
+          🪙
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-900 font-heading">Coin Rewards Center</h3>
+        <p class="text-xs text-slate-500 mb-4">Use coins to instantly unlock owner direct phone numbers and boost property visibility.</p>
+
+        <div class="p-4 bg-amber-50/80 rounded-2xl border border-amber-200 mb-5">
+          <span class="text-xs text-amber-700 font-semibold uppercase">Your Current Balance</span>
+          <div class="text-3xl font-black text-amber-600">
+            <span id="modal-coins-balance">150</span> Coins
+          </div>
+        </div>
+
+        <div class="space-y-3 mb-6">
+          <button onclick="claimDailyCoins()" class="w-full p-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-105 text-white font-bold rounded-2xl text-xs flex items-center justify-between shadow-md transition-all">
+            <div class="flex items-center gap-2">
+              <i data-lucide="gift" class="w-4 h-4"></i>
+              <span>Claim Daily Free Bonus</span>
+            </div>
+            <span class="bg-black/20 px-2 py-0.5 rounded-lg">+50 Coins</span>
+          </button>
+
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-left">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-800">Watch Sponsor Video Preview</span>
+              <span class="text-[10px] bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-md">+20 Coins</span>
+            </div>
+            <p id="ad-status-text" class="text-[11px] text-slate-500 mb-2">Watch a 5-second interior design sponsor clip to earn bonus coins.</p>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-3">
+              <div id="ad-progress-bar" class="bg-indigo-600 h-full w-0"></div>
+            </div>
+            <button id="watch-ad-btn" onclick="watchAdReward()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition-colors">
+              Watch 5s Ad Preview
+            </button>
+          </div>
+        </div>
+
+        <button onclick="closeModal('coins-modal')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL 4: VIP MEMBERSHIP MODAL -->
+    <div id="vip-modal" class="modal-overlay">
+      <div class="modal-content max-w-lg p-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-amber-500 text-white rounded-xl flex items-center justify-center">
+              <i data-lucide="crown" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-extrabold text-slate-900 font-heading">HouseBook VIP Pass</h3>
+              <p class="text-xs text-slate-500">Unlimited unlocks & zero brokerage assistance</p>
+            </div>
+          </div>
+          <button onclick="closeModal('vip-modal')" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div class="p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/40 relative">
+            <span class="absolute -top-2.5 right-3 bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">POPULAR</span>
+            <h4 class="font-bold text-slate-900 text-sm">PRO Pass</h4>
+            <div class="text-2xl font-extrabold text-indigo-600 my-1">₹499 <span class="text-xs text-slate-500 font-normal">/mo</span></div>
+            <ul class="text-xs text-slate-600 space-y-1.5 my-3">
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 50 Contact Unlocks</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Featured Seller Badge</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Priority Chat Queue</li>
+            </ul>
+            <button onclick="upgradeVip('Pro')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-colors">
+              Activate Pro
+            </button>
+          </div>
+
+          <div class="p-4 rounded-2xl border border-amber-300 bg-amber-50/40">
+            <h4 class="font-bold text-slate-900 text-sm">Crown VIP</h4>
+            <div class="text-2xl font-extrabold text-amber-600 my-1">₹1,499 <span class="text-xs text-slate-500 font-normal">/mo</span></div>
+            <ul class="text-xs text-slate-600 space-y-1.5 my-3">
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Unlimited Contact Unlocks</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Dedicated Relationship Mgr</li>
+              <li class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> Free Agreement Drafting</li>
+            </ul>
+            <button onclick="upgradeVip('VIP')" class="w-full py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition-colors">
+              Activate Crown VIP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 5: FULL-SCREEN USER PROFILE & SETTINGS -->
+    <div id="profile-modal" class="modal-overlay">
+      <div class="modal-content max-w-4xl w-full h-[90vh] p-0 flex flex-col overflow-hidden bg-white shadow-2xl rounded-3xl">
+        <!-- Header -->
+        <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" class="w-12 h-12 rounded-full object-cover border-2 border-indigo-500" />
+            <div>
+              <h3 class="font-extrabold text-lg font-heading">Rajesh Kumar</h3>
+              <p class="text-xs text-indigo-300">Verified Buyer • Member since 2026</p>
+            </div>
+          </div>
+          <button onclick="closeModal('profile-modal')" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Body with Settings & Profile Tabs -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Profile Info Card -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+              <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2">
+                <i data-lucide="user" class="w-4 h-4 text-indigo-600"></i> Account Details
+              </h4>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Full Name</label>
+                <input type="text" value="Rajesh Kumar" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Email Address</label>
+                <input type="email" value="rajesh.k@gmail.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800" />
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Phone Number</label>
+                <input type="text" value="+91 98765 43210" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800" />
+              </div>
+            </div>
+
+            <!-- App Settings Card -->
+            <div class="md:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+              <h4 class="font-bold text-slate-900 text-sm font-heading flex items-center gap-2">
+                <i data-lucide="settings" class="w-4 h-4 text-indigo-600"></i> App Preferences & Settings
+              </h4>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Theme Mode -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800 text-xs block">Dark Mode Theme</span>
+                    <span class="text-[11px] text-slate-500">Switch between light & dark UI</span>
+                  </div>
+                  <button onclick="toggleDarkMode()" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-indigo-600 transition-colors">
+                    Toggle Mode
+                  </button>
+                </div>
+
+                <!-- Currency -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800 text-xs block">Default Currency</span>
+                    <span class="text-[11px] text-slate-500">INR, USD or EUR</span>
+                  </div>
+                  <select onchange="setCurrency(this.value)" class="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                    <option value="INR">₹ INR</option>
+                    <option value="USD">$ USD</option>
+                    <option value="EUR">€ EUR</option>
+                  </select>
+                </div>
+
+                <!-- Notifications Toggle -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800 text-xs block">Push Alerts</span>
+                    <span class="text-[11px] text-slate-500">Price drop & visit reminders</span>
+                  </div>
+                  <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">Enabled</span>
+                </div>
+
+                <!-- Reset Data -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span class="font-bold text-slate-800 text-xs block">Clear Local Cache</span>
+                    <span class="text-[11px] text-slate-500">Reset saved items and listings</span>
+                  </div>
+                  <button onclick="localStorage.clear(); location.reload();" class="px-3 py-1.5 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold hover:bg-rose-200 transition-colors">
+                    Reset Data
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 bg-white border-t border-slate-200 flex justify-end">
+          <button onclick="closeModal('profile-modal')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-md">
+            Save & Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 7: OWNER PROFILE MODAL -->
+    <div id="owner-profile-modal" class="modal-overlay">
+      <div class="modal-content max-w-2xl w-full p-0 overflow-hidden bg-white rounded-3xl shadow-2xl" id="owner-profile-modal-body">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+
+    <!-- MODAL 6: NOTIFICATIONS MODAL -->
+    <div id="notif-modal" class="modal-overlay">
+      <div class="modal-content max-w-md p-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+          <h3 class="text-base font-bold text-slate-900 font-heading">Notifications</h3>
+          <button onclick="closeModal('notif-modal')" class="p-1 rounded text-slate-400 hover:text-slate-600">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl text-xs">
+            <span class="font-bold text-indigo-900 block mb-0.5">Price Drop Alert!</span>
+            <p class="text-indigo-700">Emerald Palms Villa in Bangalore lowered monthly rent by ₹5,000.</p>
+            <span class="text-[10px] text-slate-400 mt-1 block">2 hours ago</span>
+          </div>
+
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            <span class="font-bold text-slate-800 block mb-0.5">Daily Rewards Available</span>
+            <p class="text-slate-600">Claim your 50 free coins in the Rewards Center.</p>
+            <span class="text-[10px] text-slate-400 mt-1 block">5 hours ago</span>
+          </div>
+
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            <span class="font-bold text-slate-800 block mb-0.5">Verified Legal Update</span>
+            <p class="text-slate-600">Title search report for Bandra Penthouse verified 100% clean.</p>
+            <span class="text-[10px] text-slate-400 mt-1 block">Yesterday</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 8: POST PROPERTY REQUIREMENT REQUEST MODAL (FULL SCREEN) -->
+    <div id="add-request-modal" class="modal-overlay">
+      <div class="modal-content max-w-2xl w-full h-full bg-white flex flex-col">
+        <!-- Full Screen Header -->
+        <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
+              <i data-lucide="file-plus-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-extrabold font-heading">Post Property Requirement</h3>
+              <p class="text-xs text-indigo-300">Tell property owners what you are looking for</p>
+            </div>
+          </div>
+          <button onclick="closeModal('add-request-modal')" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Form Body -->
+        <form id="add-request-form" class="flex-1 p-6 overflow-y-auto space-y-5 bg-slate-50">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Requirement Heading / Title *</label>
+            <input type="text" name="reqTitle" required placeholder="e.g. Urgently looking for 3BHK in Bandra West with Sea View" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Looking to Buy or Rent? *</label>
+              <select name="reqListingType" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold">
+                <option value="rent">Looking to Rent</option>
+                <option value="sale">Looking to Buy</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Property Category *</label>
+              <select name="reqPropertyType" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold">
+                <option value="apartment">Apartment / Flat</option>
+                <option value="villa">Independent Villa</option>
+                <option value="penthouse">Penthouse</option>
+                <option value="studio">Studio Loft</option>
+                <option value="commercial">Commercial Office</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Preferred City *</label>
+              <input type="text" name="reqCity" value="Mumbai" required placeholder="e.g. Mumbai" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Locality / Area *</label>
+              <input type="text" name="reqLocality" value="Bandra West" required placeholder="e.g. Bandra West" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Bedrooms (BHK)</label>
+              <select name="reqBedrooms" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold">
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3" selected>3 BHK</option>
+                <option value="4">4+ BHK</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Budget Limit (₹) *</label>
+              <input type="text" name="reqBudget" value="₹75,000/mo" required placeholder="e.g. ₹75,000/mo or ₹2.5 Cr" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Expected Possession / Move In</label>
+              <select name="reqPossession" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-semibold">
+                <option value="Immediate">Immediate / Within 15 days</option>
+                <option value="Within 1 Month">Within 1 Month</option>
+                <option value="Flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Additional Requirements / Notes</label>
+            <textarea name="reqNotes" rows="3" placeholder="Mention balcony preference, parking needs, pet friendliness, or specific amenities..." class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20">Prefer gated society with covered parking and high floor balcony.</textarea>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200 flex justify-end gap-3">
+            <button type="button" onclick="closeModal('add-request-modal')" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold transition-colors">
+              Cancel
+            </button>
+            <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-extrabold shadow-md transition-all">
+              Post Requirement
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+      <button onclick="switchTab('explore')" data-tab="explore" class="mobile-tab-btn flex flex-col items-center gap-1 text-indigo-600 text-[10px] font-bold">
+        <i data-lucide="compass" class="w-5 h-5"></i>
+        <span>Explore</span>
+      </button>
+
+      <button onclick="switchTab('shortlist')" data-tab="shortlist" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+        <i data-lucide="heart" class="w-5 h-5"></i>
+        <span>Saved</span>
+      </button>
+
+      <button onclick="openModal('add-property-modal')" class="flex flex-col items-center -mt-5">
+        <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-600/30">
+          <i data-lucide="plus" class="w-6 h-6"></i>
+        </div>
+        <span class="text-[10px] font-bold text-indigo-600 mt-0.5">Post</span>
+      </button>
+
+      <button onclick="switchTab('chats')" data-tab="chats" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+        <i data-lucide="message-square" class="w-5 h-5"></i>
+        <span>Chats</span>
+      </button>
+
+      <button onclick="openModal('profile-modal')" class="mobile-tab-btn flex flex-col items-center gap-1 text-slate-400 text-[10px] font-medium">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span>Profile</span>
+      </button>
+    </nav>
+
+    <!-- App JavaScript Logic -->
+    <script src="./app.js"></script>
+  </body>
+</html>

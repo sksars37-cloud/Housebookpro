@@ -1,0 +1,6 @@
+{
+  "name": "HouseBook",
+  "description": "Real estate housing marketplace with property listings, real-time chat, coin rewards, search filters, and premium subscriptions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
